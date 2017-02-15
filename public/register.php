@@ -46,7 +46,7 @@
         {
             $insert = CS50::query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             $user = CS50::query("SELECT * FROM users WHERE email = ?", $_POST['email']);
-            $_SESSION['id'] = $user[0]['id'];
+            $_SESSION['cs673_id'] = $user[0]['id'];
             redirect('/');
         }
 

@@ -36,7 +36,7 @@
             if (password_verify($_POST["password"], $row["password"]))
             {
                 // remember that user's now logged in by storing user's ID in session
-                $_SESSION["id"] = $row["id"];
+                $_SESSION["cs673_id"] = $row["id"];
 
                 // redirect to portfolio
                 redirect("/");
