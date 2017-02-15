@@ -14,9 +14,9 @@
     else if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         // validate submission
-        if (empty($_POST["username"]))
+        if (empty($_POST["email"]))
         {
-            apologize("You must provide your username.");
+            apologize("You must provide your email.");
         }
         else if (empty($_POST["password"]))
         {
@@ -24,7 +24,7 @@
         }
 
         // query database for user
-        $rows = CS50::query("SELECT * FROM users WHERE username = ?", $_POST["username"]);
+        $rows = CS50::query("SELECT * FROM users WHERE email = ?", $_POST["email"]);
 
         // if we found user, check password
         if (count($rows) == 1)
@@ -33,7 +33,7 @@
             $row = $rows[0];
 
             // compare hash of user's input against hash that's in database
-            if (password_verify($_POST["password"], $row["hash"]))
+            if (password_verify($_POST["password"], $row["password"]))
             {
                 // remember that user's now logged in by storing user's ID in session
                 $_SESSION["id"] = $row["id"];
@@ -44,7 +44,7 @@
         }
 
         // else apologize
-        apologize("Invalid username and/or password.");
+        apologize("Invalid email and/or password.");
     }
 
 ?>
