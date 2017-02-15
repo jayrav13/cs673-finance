@@ -23,8 +23,14 @@
     // enable sessions
     session_start();
 
+    $url_prepend = "";
+    if( array_key_exists('environment', CS50::config()) && array_key_exists('prepend', CS50::config()['environment']) )
+    {
+        $url_prepend = CS50::$config['environment']['prepend'];
+    }
+
     // require authentication for all pages except /login.php, /logout.php, and /register.php
-    if (!in_array($_SERVER["PHP_SELF"], ["/login.php", "/logout.php", "/register.php"]))
+    if (!in_array($_SERVER["PHP_SELF"], [$url_prepend . "/login.php", $url_prepend . "/logout.php", $url_prepend . "/register.php"]))
     {
         if (empty($_SESSION["cs673_id"]))
         {

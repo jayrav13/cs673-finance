@@ -74,6 +74,11 @@
          */
         private static $config;
 
+        public static function config()
+        {
+            return self::$config;
+        }
+
         /**
          * Initializes library with JSON file at $path.
          */
