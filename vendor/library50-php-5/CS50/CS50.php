@@ -45,7 +45,7 @@
     // require extensions for Janrain's libary
     if (!extension_loaded("bcmath") && !extension_loaded("gmp"))
     {
-        trigger_error("CS50 Library requires bcmath or gmp extension module", E_USER_ERROR);
+        // trigger_error("CS50 Library requires bcmath or gmp extension module", E_USER_ERROR);
     }
     if (!extension_loaded("dom") && !extension_loaded("domxml"))
     {
