@@ -33,7 +33,7 @@
                 <div>
                     <a href="/"><img alt="C$50 Finance" src="./img/logo.png"/></a>
                 </div>
-                <?php if (!empty($_SESSION["id"])): ?>
+                <?php if (!empty($_SESSION["cs673_id"])): ?>
                     <ul class="nav nav-pills">
                         <li><a href="quote.php">Quote</a></li>
                         <li><a href="buy.php">Buy</a></li>
