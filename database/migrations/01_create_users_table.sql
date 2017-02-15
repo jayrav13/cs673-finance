@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
 
     -- Timestamps
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     -- Primary Key
     PRIMARY KEY (id)
