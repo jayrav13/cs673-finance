@@ -123,9 +123,17 @@
      */
     function redirect($location)
     {
+
+        $location = trim($location);
+
         if (headers_sent($file, $line))
         {
             trigger_error("HTTP headers already sent at {$file}:{$line}", E_USER_ERROR);
+        }
+
+        if( substr($location, 0, 1) != '/' )
+        {
+            $location = '/' . $location;
         }
 
         if( array_key_exists('environment', CS50::config()) && array_key_exists('prepend', CS50::config()['environment']) )
