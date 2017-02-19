@@ -13,8 +13,6 @@
 			$portfolios[$i]["tickers"] = [];
 		}
 
-		dump($portfolios);
-
 		render("portfolio.php", ["title" => "Portfolio", "portfolios" => $portfolios]);
 	}
 
