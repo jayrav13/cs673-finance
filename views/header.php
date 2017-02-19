@@ -10,9 +10,9 @@
         <link href="./css/styles.css" rel="stylesheet"/>
 
         <?php if (isset($title)): ?>
-            <title>C$50 Finance: <?= htmlspecialchars($title) ?></title>
+            <title>CS673: <?= htmlspecialchars($title) ?></title>
         <?php else: ?>
-            <title>C$50 Finance</title>
+            <title>CS673</title>
         <?php endif ?>
 
         <!-- https://jquery.com/ -->
@@ -27,21 +27,58 @@
 
     <body>
 
-        <div class="container">
-
-            <div id="top">
-                <div>
-                    <a href="/"><img alt="C$50 Finance" src="./img/logo.png"/></a>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">CS673</a>
                 </div>
-                <?php if (!empty($_SESSION["cs673_id"])): ?>
-                    <ul class="nav nav-pills">
-                        <li><a href="quote.php">Quote</a></li>
-                        <li><a href="buy.php">Buy</a></li>
-                        <li><a href="sell.php">Sell</a></li>
-                        <li><a href="history.php">History</a></li>
-                        <li><a href="logout.php"><strong>Log Out</strong></a></li>
-                    </ul>
-                <?php endif ?>
-            </div>
 
-            <div id="middle">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <!-- <li><a href="/#!/me">My Events</a></li>
+                        <li><a href="/#!/events">Global Events</a></li>-->
+                        <?php if (!empty($_SESSION["cs673_id"])): ?>
+                            <li><a href="quote.php">Quote</a></li>
+                            <li><a href="buy.php">Buy</a></li>
+                            <li><a href="sell.php">Sell</a></li>
+                            <li><a href="history.php">History</a></li>
+                        <?php endif ?>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if (!empty($_SESSION["cs673_id"])): ?>
+                            <li><a href="logout.php"><strong>Log Out</strong></a></li>
+                        <?php endif ?>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container" style=" margin-top: 60px; ">
+
+        <?php if (isset($title)): ?>
+            <div class="row">
+                <div class="well well-sm col-md-6 col-md-offset-3">
+                    <h1 class="header"><?= htmlspecialchars($title) ?></h1>
+                </div>
+            </div>
+        <?php endif ?>
+
+        <?php if (isset($errors)): ?>
+        <div class="alert alert-danger" role="alert">
+            <?php
+                foreach($errors as $error)
+                {
+                    echo($error);
+                }
+            ?>            
+        </div>
+        <?php endif ?>
