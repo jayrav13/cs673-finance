@@ -14,7 +14,7 @@
 
 	if ($_SERVER["REQUEST_METHOD"] == "GET")
 	{
-		render("portfolio.php", $output);
+		render("index.php", $output);
 	}
 
 	else if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -23,7 +23,7 @@
 		if(empty($_POST["name"]))
 		{
 			$output['errors'] = ["A new portfolio could not be created - be sure to supply a name."];
-			render("portfolio.php", $output);
+			render("index.php", $output);
 		}
 		else
 		{
@@ -35,7 +35,7 @@
 			else
 			{
 				$output['errors'] = ["Something went wrong - please try again."];
-				render("portfolio.php", $output);
+				render("index.php", $output);
 			}
 		}
 

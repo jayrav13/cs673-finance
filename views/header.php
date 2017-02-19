@@ -54,6 +54,9 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <?php if (!empty($_SESSION["cs673_id"])): ?>
+                            <?php if(isset($user)): ?>
+                                <li><a>Logged in as <?= $user["name"]; ?></a></li>
+                            <?php endif ?>
                             <li><a href="logout.php"><strong>Log Out</strong></a></li>
                         <?php endif ?>
                     </ul>

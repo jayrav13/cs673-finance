@@ -156,6 +156,15 @@
             // extract variables into local scope
             extract($values);
 
+            if(!empty($_SESSION["cs673_id"]))
+            {
+                $result = CS50::query("SELECT * FROM users WHERE id = ?", $_SESSION["cs673_id"]);
+                if(count($result) == 1)
+                {
+                    $user = $result[0];
+                }
+            }
+
             // render view (between header and footer)
             require("../views/header.php");
             require("../views/{$view}");
