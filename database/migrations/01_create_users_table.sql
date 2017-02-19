@@ -1,4 +1,4 @@
--- create_branches_table.sql
+-- create_users_table
 
 CREATE TABLE IF NOT EXISTS users (
 
@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS users (
 
     -- Primary Key
     PRIMARY KEY (id)
-    
+
 );
