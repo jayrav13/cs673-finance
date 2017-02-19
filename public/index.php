@@ -3,17 +3,18 @@
 	// configuration
 	require("../includes/config.php"); 
 
+	// render portfolio
+	$portfolios = CS50::query('SELECT * FROM portfolios WHERE user_id = ?', $_SESSION["cs673_id"]);
+	$title = "Portfolios";
+
+	$output = [
+		"portfolios" => $portfolios,
+		"title" => $title
+	];
+
 	if ($_SERVER["REQUEST_METHOD"] == "GET")
 	{
-		// render portfolio
-		$portfolios = CS50::query('SELECT * FROM portfolios WHERE user_id = ?', $_SESSION["cs673_id"]);
-
-		for($i = 0; $i < count($portfolios); $i++)
-		{
-			$portfolios[$i]["tickers"] = [];
-		}
-
-		render("portfolio.php", ["title" => "Portfolio", "portfolios" => $portfolios]);
+		render("portfolio.php", $output);
 	}
 
 	else if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -21,7 +22,8 @@
 		// Make sure the name parameter is available.
 		if(empty($_POST["name"]))
 		{
-			render("portfolio.php", ["title" => "Portfolio", "errors" => ["A new portfolio could not be created - be sure to supply a name."]]);
+			$output['errors'] = ["A new portfolio could not be created - be sure to supply a name."];
+			render("portfolio.php", $output);
 		}
 		else
 		{
@@ -32,7 +34,8 @@
 			}
 			else
 			{
-				render("portfolio.php", ["title" => "Portfolio", "errors" => ["Something went wrong - please try again."]]);
+				$output['errors'] = ["Something went wrong - please try again."];
+				render("portfolio.php", $output);
 			}
 		}
 
