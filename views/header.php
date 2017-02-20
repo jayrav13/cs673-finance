@@ -70,7 +70,9 @@
         <?php if (isset($title)): ?>
             <div class="row">
                 <div class="well well-sm col-md-6 col-md-offset-3">
-                    <h1 class="header"><?= htmlspecialchars($title) ?></h1>
+                    <h1 class="header"><?= htmlspecialchars($title) ?>
+                        <?php if (isset($subtitle)): ?><small><?= $subtitle ?><?php endif ?>
+                    </h1>
                 </div>
             </div>
         <?php endif ?>
