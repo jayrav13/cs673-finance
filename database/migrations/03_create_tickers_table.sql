@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS tickers (
 
 	-- Attributes
 	symbol VARCHAR(255) NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	exchange VARCHAR(255) NOT NULL,
 	shares INT NOT NULL,
 	price FLOAT(10, 2) NOT NULL,
 
