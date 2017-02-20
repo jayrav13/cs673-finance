@@ -57,6 +57,7 @@
                             <?php if(isset($user)): ?>
                                 <li><a>Logged in as <?= $user["name"]; ?></a></li>
                             <?php endif ?>
+                            <li><a href="dump.php">Database</a></li>
                             <li><a href="logout.php"><strong>Log Out</strong></a></li>
                         <?php endif ?>
                     </ul>
