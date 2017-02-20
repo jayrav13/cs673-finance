@@ -15,6 +15,8 @@
 
     // requirements
     require("helpers.php");
+    require("finance.php");
+    require("../vendor/autoload.php");
 
     // CS50 Library
     require("../vendor/library50-php-5/CS50/CS50.php");
