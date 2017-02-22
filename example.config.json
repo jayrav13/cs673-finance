@@ -4,5 +4,9 @@
         "name": "pset7",
         "username": "TODO",
         "password": "TODO"
+    },
+    "environment": {
+		"prepend": "",
+		"env": "local"
     }
 }
