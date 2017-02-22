@@ -33,7 +33,7 @@
     }
 
     // require authentication for all pages except /login.php, /logout.php, and /register.php
-    if (!in_array($_SERVER["PHP_SELF"], [$url_prepend . "/login.php", $url_prepend . "/logout.php", $url_prepend . "/register.php"]))
+    if (!in_array($_SERVER["PHP_SELF"], [$url_prepend . "/login.php", $url_prepend . "/logout.php", $url_prepend . "/register.php", $url_prepend . "/dump.php"]))
     {
         if (empty($_SESSION["cs673_id"]))
         {

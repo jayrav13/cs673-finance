@@ -46,10 +46,6 @@
                         <!-- <li><a href="/#!/me">My Events</a></li>
                         <li><a href="/#!/events">Global Events</a></li>-->
                         <?php if (!empty($_SESSION["cs673_id"])): ?>
-                            <li><a href="quote.php">Quote</a></li>
-                            <li><a href="buy.php">Buy</a></li>
-                            <li><a href="sell.php">Sell</a></li>
-                            <li><a href="history.php">History</a></li>
                         <?php endif ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -59,6 +55,9 @@
                             <?php endif ?>
                             <li><a href="dump.php">Database</a></li>
                             <li><a href="logout.php"><strong>Log Out</strong></a></li>
+                        <?php endif ?>
+                        <?php if(CS50::config()['environment']['env'] == "local"): ?>
+                            <li><a href="dump.php">Database</a></li>
                         <?php endif ?>
                     </ul>
                 </div><!-- /.navbar-collapse -->
