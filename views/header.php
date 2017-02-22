@@ -54,9 +54,10 @@
                                 <li><a>Logged in as <?= $user["name"]; ?></a></li>
                             <?php endif ?>
                             <li><a href="dump.php">Database</a></li>
+                            <li><a href="https://github.com/jayrav13/cs673-finance">Source</a></li>
                             <li><a href="logout.php"><strong>Log Out</strong></a></li>
                         <?php endif ?>
-                        <?php if(CS50::config()['environment']['env'] == "local"): ?>
+                        <?php if(CS50::config()['environment']['env'] == "local" && (empty($_SESSION["cs673_id"]))): ?>
                             <li><a href="dump.php">Database</a></li>
                         <?php endif ?>
                     </ul>

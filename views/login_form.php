@@ -22,3 +22,12 @@
 <div class="row">
     or <a href="register.php">register</a> for an account
 </div>
+
+<hr />
+
+<?php if(CS50::config()['environment']['env'] == "local"): ?>
+    <div class="row">
+        <div class="alert alert-danger col-md-6 col-md-offset-3 text-left">
+            Welcome to <strong>LOCAL</strong> mode. Since this Web Application is still in development, we may be rebuilding our database from time to time. Please refer to the <a href="./dump.php">Database</a> tab on the top right to ensure your account is valid if you're having a hard time logging in.
+        </div>
+<?php endif ?>
