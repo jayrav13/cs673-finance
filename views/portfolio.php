@@ -16,6 +16,7 @@
 			<th class="text-center">Exchange</th>
 			<th class="text-center">Shares</th>
 			<th class="text-center">Purchase Price</th>
+			<th class="text-center">Currency</th>
 			<th class="text-center">Current Price</th>
 			<th class="text-center">Purchased On</th>
 		</tr>
@@ -24,10 +25,11 @@
 				<td><?= $ticker["id"] ?> </td>
 				<td><?= $ticker["symbol"] ?> </td>
 				<td><?= $ticker["name"] ?> </td>
-				<td><?= $ticker["exchange"] ?> </td>
+				<td><?= $exchanges[$ticker["exchange"]] ?> </td>
 				<td><?= $ticker["shares"] ?> </td>
 				<td><?= $ticker["price"] ?> </td>
-				<td></td>
+				<td><?= $ticker["currency"] ?> </td>
+				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> "><?= $ticker["current_price"] ?> (<?= $ticker["delta"] > 0 ? '+' : "-" ?><?= abs($ticker["delta"]) ?>) </td>
 				<td><?= $ticker["created_at"] ?></td>
 			</tr>
 		<?php } ?>
@@ -52,19 +54,23 @@ $('#buyShares').on('shown.bs.modal', function () {
 			</div>
 			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>">
 				<div class="modal-body">
+					<label for="ticker">Ticker</label>
 					<input type="text" class="form-control" id="ticker" name="ticker" placeholder="AAPL">
 					<br />
+					<label for="shares">No. of Shares</label>
 					<input type="number" class="form-control" id="shares" name="shares" placeholder="20">
 					<br />
-					<input type="number" class="form-control" id="price" name="price" placeholder="135.72">
-					<br />
-					<label for="select" class="text-left">Exchange</label>
+					<label for="exchange">Exchange</label>
 					<select class="form-control" name="exchange">
 						<option value="">(search all)</option>
 						<?php foreach($exchanges as $key => $exchange) { ?>
 						<option value="<?= $key; ?>"><?= $exchange; ?></option>
 						<?php } ?>
 					</select>
+					<br />
+					<label for="exchange">Custom Price</label>
+					<input type="number" class="form-control" id="price" name="price" placeholder="135.72">
+					<br />
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

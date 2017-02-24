@@ -68,7 +68,7 @@
 
         // Prepare scraper.
         $client = new Goutte\Client();
-        $crawler = $client->request('GET', "https://www.google.com/finance?q={$data['e']}:{$data['t']}");
+        $crawler = $client->request('GET', "https://www.google.com/finance?q={$exchange}:{$symbol}");
 
         // Attempt to extract price. If not available, fail.
         try

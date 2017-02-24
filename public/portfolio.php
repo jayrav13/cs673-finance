@@ -18,6 +18,12 @@
 	$portfolio = $portfolio[0];
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
 
+	for($i = 0; $i < count($tickers); $i++)
+	{
+		$tickers[$i]["current_price"] = live_price($tickers[$i]["symbol"], $tickers[$i]["exchange"]);
+		$tickers[$i]["delta"] = $tickers[$i]["current_price"] - $tickers[$i]["price"];
+	}
+
 	// Static data, can be database'd later.
 	$exchanges = [
 		"nyse" => "New York Stock Exchange",
@@ -47,9 +53,9 @@
 	{
 
 		// Check to make sure the user has provided a ticker and number of shares.
-		if (empty($_POST["ticker"]) || empty($_POST["shares"]))
+		if (empty($_POST["ticker"]) || empty($_POST["shares"]) || empty($_POST["exchange"]))
 		{
-			$output["errors"] = ['Be sure to provide a stock symbol and number of shares!'];
+			$output["errors"] = ['Be sure to provide a stock symbol, number of shares and exchange!'];
 			render('portfolio.php', $output);
 		}
 
@@ -70,7 +76,7 @@
 
 		// Bump the ticker to uppercase and get details.
 		$_POST["ticker"] = strtoupper($_POST["ticker"]);
-		$stock = ticker_info($_POST["ticker"], strtoupper($_POST["exchange"]) ?: null);
+		$stock = ticker_info($_POST["ticker"], strtoupper($_POST["exchange"]));
 
 		// Throw error if the ticker can't be found to purchase.
 		if( ! $stock )
@@ -128,7 +134,7 @@
 				price,
 				currency,
 				portfolio_id
-			) VALUES (?, ?, ?, ?, ?, ?, ?)", $stock["ticker"], $stock["name"], $exchanges[strtolower($stock["exchange"])], $_POST["shares"], $price, (!empty($_POST["exchange"]) ? $currency[$_POST["exchange"]] : "USD"), $_GET["id"]);
+			) VALUES (?, ?, ?, ?, ?, ?, ?)", $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], $_GET["id"]);
 		if (count($update) != 1)
 		{
 			$output["errors"] = ["Something went wrong - please try again."];
