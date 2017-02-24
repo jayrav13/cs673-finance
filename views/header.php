@@ -37,7 +37,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">CS673</a>
+                    <a class="navbar-brand" href="<?= CS50::config()['environment']['prepend'] ?>">CS673</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
