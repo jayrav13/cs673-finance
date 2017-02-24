@@ -16,11 +16,11 @@
         // validate submission
         if (empty($_POST["email"]))
         {
-            apologize("You must provide your email.");
+            render('login_form.php', ["title" => "Log In", 'errors' => ["You must provide your email."]]);
         }
         else if (empty($_POST["password"]))
         {
-            apologize("You must provide your password.");
+            render('login_form.php', ["title" => "Log In", 'errors' => ["You must provide your password."]]);
         }
 
         // query database for user
@@ -44,7 +44,7 @@
         }
 
         // else apologize
-        apologize("Invalid email and/or password.");
+        render('login_form.php', ["title" => "Log In", 'errors' => ["Invalid email and/or password."]]);
     }
 
 ?>

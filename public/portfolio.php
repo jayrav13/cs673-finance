@@ -63,7 +63,8 @@
 		$result = CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $_POST["ticker"], $_GET["id"]);
 		if(count($result) > 0)
 		{
-			$output["errors"] = ['You already own shares of {$_POST["ticker"]}! Sell them before buying again.'];
+			$_POST["ticker"] = strtoupper($_POST["ticker"]);
+			$output["errors"] = ["You already own shares of {$_POST['ticker']}! Sell them before buying again."];
 			render('portfolio.php', $output);
 		}
 
