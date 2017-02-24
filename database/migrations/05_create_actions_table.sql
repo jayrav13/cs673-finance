@@ -1,6 +1,6 @@
--- create_tickers_table
+-- create_actions_table
 
-CREATE TABLE IF NOT EXISTS tickers (
+CREATE TABLE IF NOT EXISTS actions (
 
 	-- Primary Key
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS tickers (
 	shares INT NOT NULL,
 	price DECIMAL(10, 2) NOT NULL,
 	currency VARCHAR(255) NOT NULL,
+	action VARCHAR(255) NOT NULL, -- BUY, SELL
 
 	-- Foreign Keys
 	portfolio_id INT UNSIGNED NOT NULL,
