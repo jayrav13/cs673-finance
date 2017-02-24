@@ -51,7 +51,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <?php if (!empty($_SESSION["cs673_id"])): ?>
                             <?php if(isset($user)): ?>
-                                <li><a>Logged in as <?= $user["name"]; ?></a></li>
+                                <li><a href="settings.php">Logged in as <?= $user["name"]; ?></a></li>
                             <?php endif ?>
                             <li><a href="dump.php">Database</a></li>
                             <li><a href="https://github.com/jayrav13/cs673-finance">Source</a></li>
