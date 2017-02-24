@@ -7,7 +7,8 @@
 	if ($_SERVER["REQUEST_METHOD"] == "GET")
 	{
 		// else render form
-		render("settings.php", ["title" => "Settings"]);
+		$transactions = CS50::query("SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC", $_SESSION["cs673_id"]);
+		render("settings.php", ["title" => "Settings", "transactions" => $transactions]);
 	}
 	else if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
@@ -43,6 +44,7 @@
 			else
 			{
 				$update = CS50::query("UPDATE users SET cash = ? WHERE id = ?", $transaction + $user["cash"], $_SESSION["cs673_id"]);
+				$update = CS50::query("INSERT INTO transactions (value, cash, user_id) VALUES (?, ?, ?)", $transaction, $transaction + $user["cash"], $_SESSION["cs673_id"]);
 			}
 
 		}
