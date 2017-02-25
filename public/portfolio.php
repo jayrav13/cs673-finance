@@ -60,6 +60,9 @@
 		}
 
 		// Check if it is currently owned.
+		// We should not tell the user to sell the owned ticker/stock before buying; Example, You own 10 shares of IBM at 100 USD per share
+		// Tomorrow, you may want to add another 20 shares of IBM at a different price,say 90 USD per share; 
+		//Result will have 30 shares of IBM with a total value of (10*100 + 20*90). We will have to change this logic. just add it and portfolio should be updated correctly.
 		$result = CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $_POST["ticker"], $_GET["id"]);
 		if(count($result) > 0)
 		{
@@ -69,17 +72,22 @@
 		}
 
 		// Make sure the number of shares is numeric.
-		if(!is_numeric($_POST["shares"]))
+		// Number of shares when you buy must be numeric, but the shares holding for a particular stock might differ.
+		// Let us assume you own 10 shares of AAPL, 100 USD per share; Apple does well in one financial quarter or in a year 
+		//and gives dividend(pay some peanuts back) to the user.Let us assume, we get 20 USD as dividend.
+		// In such case, money received will be converted in terms of shares,might not be numeric in that case.In this case, our total number shares for AAPL will be 10.2
+	/*	if(!is_numeric($_POST["shares"]))
 		{
 			$output["errors"] = ['The number of shares must be numeric!'];
 			render('portfolio.php', $output);
-		}
+		} */
 
 		// Bump the ticker to uppercase and get details.
 		$_POST["ticker"] = strtoupper($_POST["ticker"]);
 		$stock = ticker_info($_POST["ticker"], strtoupper($_POST["exchange"]));
 
 		// Throw error if the ticker can't be found to purchase.
+		// We should not throw an error,instead we can just show a message to the user..
 		if( ! $stock )
 		{
 			$output['errors'] = [$_POST["ticker"] . ' in the ' . $exchanges[$_POST["exchange"]] . ' could not be found.'];
