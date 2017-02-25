@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS portfolios (
 	-- Foreign Keys
 	user_id INT UNSIGNED NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users(id),
+	
+	-- Cash
+	balance DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
 
 	-- Timestamps
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
