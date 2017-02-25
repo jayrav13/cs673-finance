@@ -1,5 +1,8 @@
 <?php
 
+	// Initializing the ini file.
+	$ini_array = parse_ini_file("portfolio.ini");
+
 	// configuration
 	require("../includes/config.php");
 
@@ -9,7 +12,9 @@
 		redirect('./');
 	}
 
-	$portfolio = CS50::query("SELECT * FROM portfolios WHERE id = ? AND user_id = ?", $_GET["id"], $_SESSION["cs673_id"]);
+	//$portfolio = CS50::query("SELECT * FROM portfolios WHERE id = ? AND user_id = ?", $_GET["id"], $_SESSION["cs673_id"]);
+	// Review this code. I am getting the select query from ini file.
+        $portfolio = CS50::query(.$ini_array['SELECT_PORTFOLIO'])
 	if (count($portfolio) != 1)
 	{
 		redirect('./');
