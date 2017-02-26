@@ -20,15 +20,15 @@
         }
         else if (empty($_POST["email"]))
         {
-            apologize("You must provide your username.");
+            apologize("You must provide your email.");
         }
         else if (empty($_POST["password"]))
         {
-            apologize("You must provide your username.");
+            apologize("You must provide your password.");
         }
         else if (empty($_POST["confirm-password"]))
         {
-            apologize("You must provide your password.");
+            apologize("You must re-enter your password.");
         }
 
         // query database for user
