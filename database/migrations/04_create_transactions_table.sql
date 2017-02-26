@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 
 	-- Foreign Keys
 	user_id INT UNSIGNED NOT NULL,
-	--FOREIGN KEY (user_id) REFERENCES users(id),
+	-- FOREIGN KEY (user_id) REFERENCES users(id),
 	
 	FOREIGN KEY (user_id) REFERENCES portfolios(id),
 
