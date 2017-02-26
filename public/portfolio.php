@@ -1,7 +1,7 @@
 <?php
 
 	// Initializing the ini file.
-	$ini_array = parse_ini_file("portfolio.ini");
+	$ini_array = parse_ini_file("../../portfolio.ini");
 
 	// configuration
 	require("../includes/config.php");
