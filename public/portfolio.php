@@ -188,21 +188,14 @@
 				render('portfolio.php', $output);
 			}
 
-			$update = CS50::query("
-				INSERT INTO tickers (
-					symbol,
-					name,
-					exchange,
-					shares,
-					price,
-					currency,
-					portfolio_id
-				) VALUES (?, ?, ?, ?, ?, ?, ?)", $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], $_GET["id"]);
+			$update = CS50::query(file_get_contents('../database/queries/insert_into_tickers.sql'), $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], $_GET["id"]);
 			if (count($update) != 1)
 			{
 				$output["errors"] = ["Something went wrong - please try again."];
 				render('portfolio.php', $output);
 			}
+
+			$update = CS50::query(file_get_contents('../database/queries/insert_into_actions.sql'), $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], "BUY", $_GET["id"]);
 
 			$update = CS50::query("UPDATE portfolios SET cash = cash - ? WHERE id = ? AND user_id = ?", $cost, $_GET["id"], $_SESSION["cs673_id"]);
 			if (count($update) != 1)

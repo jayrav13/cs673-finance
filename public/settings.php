@@ -7,8 +7,7 @@
 	if ($_SERVER["REQUEST_METHOD"] == "GET")
 	{
 		// else render form
-		$transactions = CS50::query("SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC", $_SESSION["cs673_id"]);
-		render("settings.php", ["title" => "Settings", "transactions" => $transactions]);
+		render("settings.php", ["title" => "Settings"]);
 	}
 	else if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
