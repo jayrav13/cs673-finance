@@ -4,8 +4,13 @@
 		Buy Shares
 	</button>
 </div>
-
-<hr />
+<br />
+<div class="row">
+	<div class="well well-sm col-md-4 col-md-offset-4">
+		<h5>Balance: $ <?= $portfolio["cash"] ?></h5>
+		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCash"">+</button>
+	</div>
+</div>
 
 <div class="container-fluid">
 	<table class="table table-hover container-fluid" style=" text-align: center ">
@@ -52,7 +57,7 @@ $('#buyShares').on('shown.bs.modal', function () {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Buy Shares</h4>
 			</div>
-			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>">
+			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=shares">
 				<div class="modal-body">
 					<label for="ticker">Ticker</label>
 					<input type="text" class="form-control" id="ticker" name="ticker" placeholder="AAPL">
@@ -80,3 +85,42 @@ $('#buyShares').on('shown.bs.modal', function () {
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	// On click, show modal.
+	$('#addCash').on('shown.bs.modal', function () {
+		$('#myInput').focus()
+	})
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="addCash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Cash</h4>
+			</div>
+			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=cash">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-3">
+							<select class="form-control" name="operation">
+								<option class="text-center" value="1">Add ($)</option>
+								<option class="text-center" value="-1">Withdraw ($)</option>
+							</select>
+						</div>
+						<div class="form-group col-md-9">
+							<input class="form-control" name="cash" placeholder="300.00, -150.00" type="number"/>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

@@ -10,10 +10,8 @@ CREATE TABLE IF NOT EXISTS transactions (
 	cash DECIMAL(10, 2) NOT NULL,
 
 	-- Foreign Keys
-	user_id INT UNSIGNED NOT NULL,
-	-- FOREIGN KEY (user_id) REFERENCES users(id),
-	
-	FOREIGN KEY (user_id) REFERENCES portfolios(id),
+	portfolio_id INT UNSIGNED NOT NULL,	
+	FOREIGN KEY (portfolio_id) REFERENCES portfolios(id),
 
 	-- Timestamps
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
