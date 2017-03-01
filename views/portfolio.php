@@ -13,7 +13,7 @@
 </div>
 
 <div class="container-fluid">
-	<table class="table table-hover container-fluid" style=" text-align: center ">
+	<table class="table table-hover" style=" text-align: center ">
 		<tr>
 			<th class="text-center">ID</th>
 			<th class="text-center">Symbol</th>
@@ -23,6 +23,7 @@
 			<th class="text-center">Purchase Price</th>
 			<th class="text-center">Currency</th>
 			<th class="text-center">Current Price</th>
+			<th class="text-center">Delta</th>
 			<th class="text-center">Purchased On</th>
 		</tr>
 		<?php foreach($tickers as $ticker) { ?>
@@ -34,7 +35,20 @@
 				<td><?= $ticker["shares"] ?> </td>
 				<td><?= $ticker["price"] ?> </td>
 				<td><?= $ticker["currency"] ?> </td>
-				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> "><?= $ticker["current_price"] ?> (<?= $ticker["delta"] > 0 ? '+' : "-" ?><?= abs($ticker["delta"]) ?>) </td>
+				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> ">
+					<?= $ticker["current_price"] ?>
+					<?php if ($ticker["currency"] != "USD" ) {
+							echo " (" . currency_converter("INR", "USD", $ticker["current_price"], true) . " USD)" ;
+						}
+					?>
+				</td>
+				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> ">(<?= $ticker["delta"] > 0 ? '+' : "-" ?>
+					<?= abs($ticker["delta"]) ?>
+					<?php if ($ticker["currency"] != "USD" ) {
+							echo " (" . currency_converter("INR", "USD", $ticker["delta"], true) . " USD)" ;
+						}
+					?>)
+					</td>
 				<td><?= $ticker["created_at"] ?></td>
 			</tr>
 		<?php } ?>
