@@ -146,3 +146,37 @@
             return $data;
         }
     }
+
+    /**
+     *  Converts either from USD to INR or reverse.
+     */
+    function currency_converter($from, $to, $value, $is_live)
+    {
+
+        // This is the default INR value for January 17, 2017.
+        $INR = 66.86;
+        if( ! $is_live )
+        {
+            // Get current INR price.
+            $URL = "http://finance.yahoo.com/webservice/v1/symbols/allcurrencies/quote?format=json";
+            $page = file_get_contents($URL);
+            $data = json_decode($page, true)["list"]["resources"];
+            $data = array_filter($data, function($element) {
+                return $element["resource"]["fields"]["name"] == "USD/INR";
+            });
+            $INR = floatval(json_encode($data["21"]["resource"]["fields"]["price"]));
+        }
+
+        $result = null;
+        if($from == "USD")
+        {
+            $result = $value * $INR;
+        }
+        else
+        {
+            $result = $value / $INR;
+        }
+
+        return floatval( number_format( $result, 2 ) );
+
+    }
