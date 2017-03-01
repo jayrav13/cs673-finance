@@ -26,29 +26,6 @@
 			$update = CS50::query("UPDATE users SET password = ? WHERE id = ?", password_hash($_POST['new-password'], PASSWORD_DEFAULT), $_SESSION["cs673_id"] );
 		}
 
-		if( !empty($_POST["operation"]) && !empty($_POST["cash"]) )
-		{
-			$cash = floatval($_POST["cash"]);
-			if($cash < 0)
-			{
-				$cash = -1 * $cash;
-			}
-
-			$operation = intval($_POST["operation"]);
-			$transaction = $operation * $cash;
-
-			if($user["cash"] + $transaction < 0)
-			{
-				render("settings.php", ["errors" => ["You don't have enough cash for this operation."]]);
-			}
-			else
-			{
-				$update = CS50::query("UPDATE users SET cash = ? WHERE id = ?", $transaction + $user["cash"], $_SESSION["cs673_id"]);
-				$update = CS50::query("INSERT INTO transactions (value, cash, user_id) VALUES (?, ?, ?)", $transaction, $transaction + $user["cash"], $_SESSION["cs673_id"]);
-			}
-
-		}
-
 		redirect("./settings.php");
 
 	}
