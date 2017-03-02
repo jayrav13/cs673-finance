@@ -13,14 +13,12 @@
 	<?php if (isset($portfolios)): ?>
 		<table class="table table-striped" style=" text-align: center; table-layout: fixed; ">
 			<tr>
-				<th class="text-center">ID</th>
 				<th class="text-center">Name</th>
 				<th class="text-center">Date Created</th>
 				<th class="text-center">View</th>
 			</tr>
 			<?php foreach($portfolios as $portfolio) { ?>
 				<tr>
-					<td><?= $portfolio["id"] ?></td>
 					<td><?= $portfolio["name"] ?></td>
 					<td><?= $portfolio["created_at"] ?></td>
 					<td><a href="./portfolio.php?id=<?= $portfolio["id"] ?>">Go</a></td>

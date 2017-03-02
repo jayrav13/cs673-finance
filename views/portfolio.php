@@ -22,7 +22,6 @@
 <div class="container-fluid">
 	<table class="table table-hover" style=" text-align: center ">
 		<tr>
-			<th class="text-center">ID</th>
 			<th class="text-center">Symbol</th>
 			<th class="text-center">Name</th>
 			<th class="text-center">Exchange</th>
@@ -35,7 +34,6 @@
 		</tr>
 		<?php foreach($tickers as $ticker) { ?>
 			<tr>
-				<td><?= $ticker["id"] ?> </td>
 				<td><?= $ticker["symbol"] ?> </td>
 				<td><?= $ticker["name"] ?> </td>
 				<td><?= $exchanges[$ticker["exchange"]] ?> </td>
@@ -142,7 +140,6 @@ $('#buyShares').on('shown.bs.modal', function () {
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>ID</th>
 								<th>Value</th>
 								<th>Total Cash</th>
 								<th>Timestamp</th>
@@ -151,7 +148,6 @@ $('#buyShares').on('shown.bs.modal', function () {
 						<tbody>
 							<?php foreach($transactions as $transaction) { ?>
 							<tr>
-								<td><?= $transaction["id"] ?></td>
 								<td><?= $transaction["value"] ?></td>
 								<td><?= $transaction["cash"] ?></td>
 								<td><?= $transaction["created_at"] ?></td>
@@ -193,7 +189,6 @@ th {
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Symbol</th>
 							<th>Name</th>
 							<th>Exchange</th>
@@ -207,7 +202,6 @@ th {
 					<tbody>
 						<?php foreach($actions as $action) { ?>
 						<tr>
-							<td><?= $action["id"] ?></td>
 							<td><?= $action["symbol"] ?></td>
 							<td><?= $action["name"] ?></td>
 							<td><?= $exchanges[$action["exchange"]] ?></td>
