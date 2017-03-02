@@ -13,6 +13,7 @@
     ini_set("display_errors", true);
     error_reporting(E_ALL);
     date_default_timezone_set("America/New_York");
+    setlocale(LC_MONETARY, 'en_US');
 
     // requirements
     require("helpers.php");
@@ -37,7 +38,7 @@
     {
         if (empty($_SESSION["cs673_id"]))
         {
-            redirect("login.php");
+            redirect("/login.php");
         }
     }
 
