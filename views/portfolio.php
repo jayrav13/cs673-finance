@@ -7,6 +7,7 @@
 <br />
 <div class="row">
 	<div class="well well-sm col-md-4 col-md-offset-4">
+		<h5 style="color: <?= $value["current"] > $value["original"] ? "green" : "red" ?> ">Value: $ <?= $value["current"] ?> (<?= $value["current"] > $value["original"] ? "+" : "-" ?> $ <?= $value["current"] - $value["original"] ?>)</h5>
 		<h5>Balance: $ <?= $portfolio["cash"] ?></h5>
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCash"">+</button>
 	</div>

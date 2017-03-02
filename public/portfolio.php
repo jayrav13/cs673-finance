@@ -1,8 +1,5 @@
 <?php
 
-	// Initializing the ini file.
-	//$ini_array = parse_ini_file("../portfolio.ini");
-
 	// configuration
 	require("../includes/config.php");
 
@@ -25,10 +22,25 @@
 	$portfolio = $portfolio[0];
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
 
+	$value = [
+		"current" => 0,
+		"original" => 0
+	];
+
 	for($i = 0; $i < count($tickers); $i++)
 	{
 		$tickers[$i]["current_price"] = live_price($tickers[$i]["symbol"], $tickers[$i]["exchange"]);
 		$tickers[$i]["delta"] = $tickers[$i]["current_price"] - $tickers[$i]["price"];
+		if( $tickers[$i]["currency"] == "USD" )
+		{
+			$value["current"] += $tickers[$i]["current_price"] * $tickers[$i]["shares"];
+			$value["original"] += $tickers[$i]["price"] * $tickers[$i]["shares"];
+		}
+		else
+		{
+			$value["current"] += currency_converter( "INR", "USD", $tickers[$i]["current_price"], true ) * $tickers[$i]["shares"];
+			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
+		}
 	}
 
 	// Static data, can be database'd later.
@@ -49,7 +61,8 @@
 		"tickers" => $tickers,
 		"title" => "Holdings",
 		"subtitle" => $portfolio["name"],
-		"exchanges" => $exchanges
+		"exchanges" => $exchanges,
+		"value" => $value
 	];
 
 	if ($_SERVER["REQUEST_METHOD"] == "GET")
