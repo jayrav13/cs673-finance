@@ -22,6 +22,9 @@
 	$portfolio = $portfolio[0];
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
 
+	$transactions = CS50::query("SELECT * FROM transactions WHERE portfolio_id = ? ORDER BY created_at DESC", $_GET["id"]);
+	$actions = CS50::query("SELECT * FROM actions WHERE portfolio_id = ?", $_GET["id"]);
+
 	$value = [
 		"current" => 0,
 		"original" => 0
@@ -62,7 +65,9 @@
 		"title" => "Holdings",
 		"subtitle" => $portfolio["name"],
 		"exchanges" => $exchanges,
-		"value" => $value
+		"value" => $value,
+		"transactions" => $transactions,
+		"actions" => $actions
 	];
 
 	if ($_SERVER["REQUEST_METHOD"] == "GET")

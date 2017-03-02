@@ -3,6 +3,9 @@
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#buyShares">
 		Buy Shares
 	</button>
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewHistory">
+		View History
+	</button>
 </div>
 <br />
 <div class="row">
@@ -124,16 +127,101 @@ $('#buyShares').on('shown.bs.modal', function () {
 								<option class="text-center" value="-1">Withdraw ($)</option>
 							</select>
 						</div>
-						<div class="form-group col-md-9">
+						<div class="form-group col-md-7">
 							<input class="form-control" name="cash" placeholder="300.00, -150.00" type="number"/>
 						</div>
+						<div class="form-group col-md-2">
+							<button type="submit" class="btn btn-success btn-sm">Save</button>
+						</div>
 					</div>
+					<hr />
+					<h3>Transactional History</h3>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Value</th>
+								<th>Total Cash</th>
+								<th>Timestamp</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach($transactions as $transaction) { ?>
+							<tr>
+								<td><?= $transaction["id"] ?></td>
+								<td><?= $transaction["value"] ?></td>
+								<td><?= $transaction["cash"] ?></td>
+								<td><?= $transaction["created_at"] ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Save changes</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	// On click, show modal.
+	$('#viewHistory').on('shown.bs.modal', function () {
+		$('#myInput').focus()
+	})
+</script>
+
+<style type="text/css">
+th {
+	text-align: center;
+}
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="viewHistory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Stock History</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Symbol</th>
+							<th>Name</th>
+							<th>Exchange</th>
+							<th>Shares</th>
+							<th>Price</th>
+							<th>Currency</th>
+							<th>Action</th>
+							<th>Timestamp</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($actions as $action) { ?>
+						<tr>
+							<td><?= $action["id"] ?></td>
+							<td><?= $action["symbol"] ?></td>
+							<td><?= $action["name"] ?></td>
+							<td><?= $exchanges[$action["exchange"]] ?></td>
+							<td><?= $action["shares"] ?></td>
+							<td><?= $action["price"] ?></td>
+							<td><?= $action["currency"] ?></td>
+							<td><?= $action["action"] ?></td>
+							<td><?= $action["created_at"] ?></td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<!--<button type="submit" class="btn btn-primary">Save changes</button>-->
+			</div>
 		</div>
 	</div>
 </div>
