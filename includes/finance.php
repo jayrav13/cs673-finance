@@ -164,7 +164,7 @@
             $data = array_filter($data, function($element) {
                 return $element["resource"]["fields"]["name"] == "USD/INR";
             });
-            $INR = floatval(json_encode($data["21"]["resource"]["fields"]["price"]));
+            $INR = (float)(($data["21"]["resource"]["fields"]["price"]));
         }
 
         $result = null;
