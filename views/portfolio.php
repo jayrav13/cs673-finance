@@ -22,8 +22,8 @@
 			<th class="text-center">Exchange</th>
 			<th class="text-center">Shares</th>
 			<th class="text-center">Purchase Price</th>
-			<th class="text-center">Currency</th>
 			<th class="text-center">Current Price</th>
+			<th class="text-center">Currency</th>
 			<th class="text-center">Delta</th>
 			<th class="text-center">Purchased On</th>
 		</tr>
@@ -35,7 +35,6 @@
 				<td><?= $exchanges[$ticker["exchange"]] ?> </td>
 				<td><?= $ticker["shares"] ?> </td>
 				<td><?= $ticker["price"] ?> </td>
-				<td><?= $ticker["currency"] ?> </td>
 				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> ">
 					<?= $ticker["current_price"] ?>
 					<?php if ($ticker["currency"] != "USD" ) {
@@ -43,12 +42,12 @@
 						}
 					?>
 				</td>
-				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> ">(<?= $ticker["delta"] > 0 ? '+' : "-" ?>
-					<?= abs($ticker["delta"]) ?>
+				<td><?= $ticker["currency"] ?> </td>
+				<td style="color: <?= $ticker['delta'] >= 0 ? 'green' : 'red' ?> "><?= $ticker["delta"] > 0 ? '+' : "-" ?><?= abs($ticker["delta"]) ?>
 					<?php if ($ticker["currency"] != "USD" ) {
 							echo " (" . currency_converter("INR", "USD", $ticker["delta"], true) . " USD)" ;
 						}
-					?>)
+					?>
 					</td>
 				<td><?= $ticker["created_at"] ?></td>
 			</tr>
