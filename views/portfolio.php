@@ -3,7 +3,10 @@
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#buyShares">
 		Buy Shares
 	</button>
-	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewHistory">
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sellShares">
+		Sell Shares
+	</button>
+	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#viewHistory">
 		View History
 	</button>
 </div>
@@ -74,7 +77,7 @@ $('#buyShares').on('shown.bs.modal', function () {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Buy Shares</h4>
 			</div>
-			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=shares">
+			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=shares&method=buy">
 				<div class="modal-body">
 					<label for="ticker">Ticker</label>
 					<input type="text" class="form-control" id="ticker" name="ticker" placeholder="AAPL">
@@ -90,7 +93,7 @@ $('#buyShares').on('shown.bs.modal', function () {
 						<?php } ?>
 					</select>
 					<br />
-					<label for="exchange">Custom Price</label>
+					<label for="exchange">Custom Price <snap style=" color: red; ">(OPTIONAL, default is live price.)</span></label>
 					<input type="number" class="form-control" id="price" name="price" placeholder="135.72">
 					<br />
 				</div>
@@ -222,6 +225,46 @@ th {
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				<!--<button type="submit" class="btn btn-primary">Save changes</button>-->
 			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+// On click, show modal.
+$('#sellShares').on('shown.bs.modal', function () {
+	$('#myInput').focus()
+})
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="sellShares" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Sell Shares</h4>
+			</div>
+			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=shares&method=sell">
+				<div class="modal-body">
+					<label for="ticker">Ticker</label>
+
+					<select class="form-control"  name="ticker_id">
+						<?php foreach($tickers as $ticker) { ?>
+							<option value="<?= $ticker['id'] ?>"><?= $ticker['symbol'] ?> - <?= $ticker["name"] ?> - <?= $exchanges[$ticker["exchange"]] ?> - <?= $ticker["shares"] ?> share(s)</option>
+						<?php } ?>
+					</select>
+
+					<br />
+					<label for="shares">No. of Shares</span></label>
+					<input type="number" class="form-control" id="shares" name="shares" placeholder="20">
+					<br />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
