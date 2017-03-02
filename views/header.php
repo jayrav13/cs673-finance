@@ -85,6 +85,17 @@
                 {
                     echo($error);
                 }
+            ?>
+        </div>
+        <?php endif ?>
+
+        <?php if (isset($success)): ?>
+        <div class="alert alert-success" role="alert">
+            <?php
+                foreach($success as $message)
+                {
+                    echo($message);
+                }
             ?>            
         </div>
         <?php endif ?>
