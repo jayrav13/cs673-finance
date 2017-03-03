@@ -99,7 +99,12 @@
 
         // Query the provided symbol.
         $url = "http://chart.finance.yahoo.com/table.csv?s={$query}&a=0&b=17&c=2017&d=0&e=17&f=2017&g=d&ignore=.csv";
-        $data = file_get_contents($url);
+        $data = @file_get_contents($url);
+
+        if($data == false)
+        {
+            return false;
+        }
 
         // Break down by row and make sure data exists. Get first row.
         $data = explode("\n", $data);

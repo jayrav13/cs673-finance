@@ -158,6 +158,14 @@
 
 				if($_GET["method"] == "buy")
 				{
+
+					// Add an upper bound to the number of stocks that may be purchased.
+					if(count($tickers) == 10)
+					{
+						$output["errors"] = ["The maximum number of stocks you may purchase for this portfolio is 10."];
+						render('portfolio.php', $output);
+					}
+
 					// Make sure required POST data is available.
 					if (empty($_POST["ticker"]) || empty($_POST["shares"]) || empty($_POST["exchange"]))
 					{
@@ -202,6 +210,11 @@
 					if(count($historicals) == 0)
 					{
 						$price = init_price($stock["ticker"], $_POST["exchange"]);
+						if($price == false)
+						{
+							$output["errors"] = ["Cound not retrieve stock price from 1/17/2017 for {$stock['ticker']}!"];
+							render("portfolio.php", $output);
+						}
 						$bought_price = "bought=init";
 					}
 					// If it has been purchased before, use live or inserted.
@@ -251,6 +264,13 @@
 					if (empty($_POST["ticker_id"]) || empty($_POST["shares"]))
 					{
 						$output["errors"] = ['Be sure to provide a stock symbol and number of shares!'];
+						render('portfolio.php', $output);
+					}
+
+					// Add an lower bound to the number of stocks that may be purchased.
+					if(count($tickers) == 7)
+					{
+						$output["errors"] = ["The minimum number of stocks you may purchase for this portfolio is 7."];
 						render('portfolio.php', $output);
 					}
 
