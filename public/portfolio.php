@@ -18,6 +18,7 @@
 		redirect('./');
 	}
 	$portfolio = $portfolio[0];
+	$portfolio["total_projection"] = 0;
 
 	// Get all of the tickers in the portfolio.
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
@@ -49,6 +50,9 @@
 			$value["current"] += currency_converter( "INR", "USD", $tickers[$i]["current_price"], true ) * $tickers[$i]["shares"];
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
+
+		$tickers[$i]["projection"] = $tickers[$i]["current_price"] + ($tickers[$i]["current_price"]) * percent_change($tickers[$i]["price"], $tickers[$i]["current_price"]) - $tickers[$i]["price"];
+		$portfolio["total_projection"] += $tickers[$i]["projection"];
 	}
 
 	// Collect all transactions (cash) and actions (stocks) - historicals.

@@ -319,7 +319,7 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Expected Return</h4>
+				<h4 class="modal-title" id="myModalLabel">Expected Return <small>Total: $ <?= $portfolio["total_projection"] ?></small> </h4>
 			</div>
 				<div class="modal-body">
 
@@ -338,13 +338,14 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 					</thead>
 					<tbody>
 						<?php foreach($tickers as $ticker) { ?>
+
 						<tr>
 							<td><?= $ticker["name"] ?></td>
 							<td><?= $ticker["shares"] ?></td>
 							<td><?= $ticker["price"] ?></td>
 							<td><?= $ticker["current_price"] ?></td>
 							<td><?= percent_change($ticker["price"], $ticker["current_price"]) * 100 ?></td>
-							<td><?= $ticker["current_price"] + ($ticker["current_price"] * percent_change($ticker["price"], $ticker["current_price"])) ?></td>
+							<td><?= $ticker["projection"] ?></td>
 							<td><?= $ticker["currency"] ?></td>
 							<td><?= $ticker["created_at"] ?></td>
 						</tr>
@@ -361,7 +362,7 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 				<hr />
 				Based on this, we are able to determine how much the stock may be worth in six week if the previous six week's trend continues.
 
-				This data is available by clicking Download to CSV on the Portfolio's main page.
+				This data is available by clicking <strong>Download to CSV</strong> on the Portfolio's main page.
 				</div>
 
 			</div>
