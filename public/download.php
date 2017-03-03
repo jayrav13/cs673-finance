@@ -20,6 +20,8 @@
 		"purchase_price",
 		"current_price",
 		"delta",
+		"percent_change_since_init",
+		"projected_six_weeks",
 		"currency",
 		"purchased_on",
 		"portfolio",
@@ -52,6 +54,7 @@
 	foreach($tickers as $ticker)
 	{
 		$live_price = live_price($ticker["symbol"], $ticker["exchange"]);
+		$percent_change = percent_change($ticker["price"], $live_price);
 		array_push($csv, [
 			$ticker["id"],
 			$ticker["symbol"],
@@ -61,9 +64,11 @@
 			$ticker["price"],
 			$live_price,
 			$live_price - $ticker["price"],
+			$percent_change,
+			(($ticker["price"] * $percent_change) + $live_price),
 			$ticker["currency"],
 			$ticker["created_at"],
-			$portfolio["name"]
+			$portfolio["name"],
 		]);
 	}
 

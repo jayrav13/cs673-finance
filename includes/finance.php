@@ -185,3 +185,35 @@
         return floatval( number_format( $result, 2 ) );
 
     }
+
+    /**
+     *  Expected Return
+     *
+     *  Calculates a simple rate of increase or decrease in stock price to determine volatility.
+     */
+    function expected_return($symbol, $exchange)
+    {
+        // Get both Jan 17 and current prices.
+        $init_price = init_price($symbol, $exchange);
+        $live_price = live_price($symbol, $exchange);
+
+        // Make sure all prices exist.
+        if($init_price == false || $live_price == false)
+        {
+            return false;
+        }
+
+        // Calculate percent change.
+        $change = ($live_price - $init_price) / $init_price;
+        dump([
+            $live_price,
+            $init_price,
+            $change
+        ]);
+    }
+
+    function percent_change($init, $live)
+    {
+        return floatval(($live - $init) / $init);
+    }
+
