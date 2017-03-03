@@ -6,19 +6,23 @@
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sellShares">
 		Sell Shares
 	</button>
-	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#viewHistory">
+	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewHistory">
 		View History
 	</button>
-	<a class="btn btn-danger btn-sm" href="./download.php?portfolio_id=<?= $portfolio['id'] ?>">
+	<a class="btn btn-info btn-sm" href="./download.php?portfolio_id=<?= $portfolio['id'] ?>">
 		Dump to CSV
 	</a>
+	<hr />
+	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePortfolio">
+		Delete Portfolio
+	</button>
 </div>
 <br />
 <div class="row">
 	<div class="well well-sm col-md-4 col-md-offset-4">
 		<h5 style="color: <?= $value["current"] > $value["original"] ? "green" : "red" ?> ">Value: $ <?= $value["current"] ?> (<?= $value["current"] > $value["original"] ? "+" : "-" ?> $ <?= $value["current"] - $value["original"] ?>)</h5>
 		<h5>Balance: $ <?= $portfolio["cash"] ?></h5>
-		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCash"">+</button>
+		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCash"">+</button>
 	</div>
 </div>
 
@@ -266,3 +270,34 @@ $('#sellShares').on('shown.bs.modal', function () {
 	</div>
 </div>
 
+
+<script type="text/javascript">
+
+// On click, show modal.
+$('#deletePortfolio').on('shown.bs.modal', function () {
+	$('#myInput').focus()
+})
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="deletePortfolio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Delete Portfolio - Are You Sure?</h4>
+			</div>
+			<form method="post" action="portfolio.php?id=<?= $_GET["id"] ?>&action=delete">
+				<div class="modal-body">
+
+					All associated data (tickers, actions, transactions) will be deleted. This action CANNOT be undone.
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-danger">Delete Portfolio</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

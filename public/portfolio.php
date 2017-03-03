@@ -332,5 +332,14 @@
 			}
 
 		}
+		// Delete this portfolio.
+		else if ($_GET['action'] == 'delete')
+		{
+			$update = CS50::query("DELETE FROM actions WHERE portfolio_id = ?", $_GET["id"]);
+			$update = CS50::query("DELETE FROM transactions WHERE portfolio_id = ?", $_GET["id"]);
+			$update = CS50::query("DELETE FROM tickers WHERE portfolio_id = ?", $_GET["id"]);
+			$update = CS50::query("DELETE FROM portfolios WHERE id = ?", $_GET["id"]);
+			redirect('./');
+		}
 
 	}
