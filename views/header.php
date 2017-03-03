@@ -46,6 +46,10 @@
                         <!-- <li><a href="/#!/me">My Events</a></li>
                         <li><a href="/#!/events">Global Events</a></li>-->
                         <?php if (!empty($_SESSION["cs673_id"])): ?>
+                            <li><a href="/search.php">
+                                <span class="glyphicon glyphicon-search" style=" padding-right: 10px "></span>
+                                Search
+                            </a></li>
                         <?php endif ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
