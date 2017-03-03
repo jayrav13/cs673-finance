@@ -9,6 +9,9 @@
 	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#viewHistory">
 		View History
 	</button>
+	<a class="btn btn-danger btn-sm" href="./download.php?portfolio_id=<?= $portfolio['id'] ?>">
+		Dump to CSV
+	</a>
 </div>
 <br />
 <div class="row">
