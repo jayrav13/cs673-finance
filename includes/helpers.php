@@ -118,7 +118,7 @@
     }
 
     // http://stackoverflow.com/questions/16251625/how-to-create-and-download-a-csv-file-from-php-script
-    function array_to_csv_download($array, $filename = "export.csv", $delimiter="\t") {
+    function array_to_csv_download($array, $filename = "export.csv", $delimiter=";") {
         // open raw memory as file so no temp files needed, you might run out of memory though
         $f = fopen('php://memory', 'w'); 
         // loop over the input array
