@@ -12,6 +12,9 @@
 	<a class="btn btn-info btn-sm" href="./download.php?portfolio_id=<?= $portfolio['id'] ?>">
 		Dump to CSV
 	</a>
+	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#expectedReturn">
+		Expected Return
+	</button>
 	<hr />
 	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePortfolio">
 		Delete Portfolio
@@ -298,6 +301,74 @@ $('#deletePortfolio').on('shown.bs.modal', function () {
 					<button type="submit" class="btn btn-danger">Delete Portfolio</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+// On click, show modal.
+$('#expectedReturn').on('shown.bs.modal', function () {
+	$('#myInput').focus()
+})
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="expectedReturn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Expected Return</h4>
+			</div>
+				<div class="modal-body">
+
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Shares</th>
+							<th>Purchase Price</th>
+							<th>Live Price</th>
+							<th>% Change</th>
+							<th>Projected Earning (6 wk)</th>
+							<th>Currency</th>
+							<th>Timestamp</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($tickers as $ticker) { ?>
+						<tr>
+							<td><?= $ticker["name"] ?></td>
+							<td><?= $ticker["shares"] ?></td>
+							<td><?= $ticker["price"] ?></td>
+							<td><?= $ticker["current_price"] ?></td>
+							<td><?= percent_change($ticker["price"], $ticker["current_price"]) * 100 ?></td>
+							<td><?= $ticker["current_price"] + ($ticker["current_price"] * percent_change($ticker["price"], $ticker["current_price"])) ?></td>
+							<td><?= $ticker["currency"] ?></td>
+							<td><?= $ticker["created_at"] ?></td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+
+				<div class="well well-sm">
+				To calculate Projected Earnings (six weeks), we take the price on January 17th and determine the percent change between then and today's price, which is roughly six weeks separated.
+
+				We use the below, simple formula:
+				<hr />
+				<pre>current_price + (current_price * percent_change(purchase_price, current_price))</pre>
+				<hr />
+				Based on this, we are able to determine how much the stock may be worth in six week if the previous six week's trend continues.
+
+				This data is available by clicking Download to CSV on the Portfolio's main page.
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-danger">Delete Portfolio</button>
+			</div>
 		</div>
 	</div>
 </div>
