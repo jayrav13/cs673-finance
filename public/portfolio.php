@@ -51,7 +51,7 @@
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
 
-		$tickers[$i]["projection"] = $tickers[$i]["current_price"] + ($tickers[$i]["current_price"]) * percent_change($tickers[$i]["price"], $tickers[$i]["current_price"]) - $tickers[$i]["price"];
+		$tickers[$i]["projection"] = ($tickers[$i]["current_price"] + ($tickers[$i]["current_price"]) * percent_change($tickers[$i]["price"], $tickers[$i]["current_price"]) - $tickers[$i]["price"]) * $tickers[$i]["shares"];
 		$portfolio["total_projection"] += $tickers[$i]["projection"];
 	}
 
