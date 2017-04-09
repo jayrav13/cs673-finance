@@ -132,6 +132,6 @@
             array_push($diffs, ($data[$i] - $data[$i + 12]) / $data[$i + 12]);
         }
 
-        return array_sum($diffs) / count($diffs);
+        return array_sum($diffs) / count($diffs) ?: 0;
 
     }

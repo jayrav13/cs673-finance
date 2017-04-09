@@ -58,10 +58,6 @@
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
 
-		// Rudimentary projections
-		$tickers[$i]["projection"] = ($tickers[$i]["current_price"] + ($tickers[$i]["current_price"]) * percent_change($tickers[$i]["price"], $tickers[$i]["current_price"]) - $tickers[$i]["price"]) * $tickers[$i]["shares"];
-		$portfolio["total_projection"] += $tickers[$i]["projection"];
-
 		/**
 		 *	Expected Return and Beta
 		 *
@@ -219,12 +215,14 @@
 					}
 
 					// Query for this ticker in this portfolio. If exists, throw error - currently, we only let users buy stocks they don't own at the moment.
+					/*
 					$result = CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $stock["ticker"], $_GET["id"]);
 					if(count($result) > 0)
 					{
 						$output["errors"] = ["You already own shares of {$stock['ticker']}! Sell them before buying again."];
 						render('portfolio.php', $output);
 					}
+					*/
 
 					// Make sure the number of shares is numeric.
 					if(!is_numeric($_POST["shares"]))
@@ -281,8 +279,17 @@
 						render('portfolio.php', $output);
 					}
 
-					// Add this to the tickers table.
-					$update = CS50::query(file_get_contents('../database/queries/insert_into_tickers.sql'), $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], $_GET["id"]);
+					$result = CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $stock["ticker"], $_GET["id"]);
+					if(count($result) > 0)
+					{
+						$result = $result[0];
+						$new_price = ($result["price"] * $result["shares"] + $price * $_POST["shares"]) / ($result["shares"] + $_POST["shares"]);
+						$update = CS50::query("UPDATE tickers SET price = ?, shares = ? WHERE portfolio_id = ? AND id = ?", $new_price, ($result["shares"] + $_POST["shares"]), $_GET["id"], $result["id"]);
+					}
+					else
+					{
+						$update = CS50::query(file_get_contents('../database/queries/insert_into_tickers.sql'), $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], $_GET["id"]);
+					}
 
 					// Add this to historical table.
 					$update = CS50::query(file_get_contents('../database/queries/insert_into_actions.sql'), $stock["ticker"], $stock["name"], strtolower($stock["exchange"]), $_POST["shares"], $price, $currency[$_POST["exchange"]], "BUY", $_GET["id"]);
