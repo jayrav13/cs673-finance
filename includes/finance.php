@@ -44,7 +44,8 @@
         // Attempt to extract price. If not available, fail.
         try
         {
-            $price = floatval(trim($crawler->filterXPath('//span[@class="pr"]')->text()));
+            $price = (trim($crawler->filterXPath('//span[@class="pr"]')->text()));
+            $price = floatval(str_replace(",", "", $price));
         }
         catch (Exception $e)
         {

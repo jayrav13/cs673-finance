@@ -17,6 +17,8 @@
     // requirements
     require("helpers.php");
     require("finance.php");
+    require("optimizer.php");
+    require("math/math.php");
     require("../vendor/autoload.php");
 
     // CS50 Library
