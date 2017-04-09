@@ -19,6 +19,10 @@
 	}
 	$portfolio = $portfolio[0];
 	$portfolio["total_projection"] = 0;
+	$portfolio["statistics"] = [
+		"beta" => 0,
+		"expected_return" => 0
+	];
 
 	// Get all of the tickers in the portfolio.
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
@@ -51,9 +55,32 @@
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
 
+		// Rudimentary projections
 		$tickers[$i]["projection"] = ($tickers[$i]["current_price"] + ($tickers[$i]["current_price"]) * percent_change($tickers[$i]["price"], $tickers[$i]["current_price"]) - $tickers[$i]["price"]) * $tickers[$i]["shares"];
 		$portfolio["total_projection"] += $tickers[$i]["projection"];
+
+		/**
+		 *	Expected Return and Beta
+		 *
+		 *
+		 */
+		$historical_stock = historical_stock( $tickers[$i]["symbol"], $tickers[$i]["exchange"] );
+		$historical_index = historical_index( $tickers[$i]["currency"] == "INR" ? "niftyfifty" : "sp500" );
+		$tickers[$i]["historicals"] = [
+			"stock" => $historical_stock,
+			"index" => $historical_index,
+			"beta" => beta_stock($historical_index, $historical_stock),
+		];
+
 	}
+
+	for($i = 0; $i < count($tickers); $i++)
+	{
+		$tickers[$i]["weight"] = (( $tickers[$i]["currency"] == "USD" ? $tickers[$i]["current_price"] : currency_converter("INR", "USD", $tickers[$i]["current_price"])) * $tickers[$i]["shares"]) / $value["current"];
+		$portfolio["statistics"]["beta"] += $tickers[$i]["weight"] * $tickers[$i]["historicals"]["beta"];
+	}
+
+	dump($portfolio);
 
 	// Collect all transactions (cash) and actions (stocks) - historicals.
 	$transactions = CS50::query("SELECT * FROM transactions WHERE portfolio_id = ? ORDER BY created_at DESC", $_GET["id"]);

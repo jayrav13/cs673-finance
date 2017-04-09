@@ -156,7 +156,7 @@
     /**
      *  Converts either from USD to INR or reverse.
      */
-    function currency_converter($from, $to, $value, $is_live)
+    function currency_converter($from, $to, $value, $is_live=true)
     {
 
         // This is the default INR value for January 17, 2017.
