@@ -13,7 +13,7 @@
 		Dump to CSV
 	</a>
 	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#expectedReturn">
-		Expected Return
+		Portfolio Statistics
 	</button>
 	<hr />
 	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePortfolio">
@@ -319,7 +319,7 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Expected Return <small></small> </h4>
+				<h4 class="modal-title" id="myModalLabel">Portfolio Statistics <small></small> </h4>
 			</div>
 				<div class="modal-body">
 
