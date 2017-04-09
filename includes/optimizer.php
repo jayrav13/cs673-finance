@@ -2,6 +2,8 @@
 
     require_once("config.php");
 
+    $stock_cache = [];
+
     /**
      *  historical_stock
      *
@@ -9,41 +11,49 @@
      */
     function historical_stock($symbol, $exchange = null)
     {
-    	// Check to make sure a ticker is valid.
-    	$ticker = ticker($symbol, $exchange);
-    	if(!$ticker)
-    	{
-    		return $ticker;
-    	}
+        // access cache
+        global $stock_cache;
 
-    	// Modify variables.
-    	$symbol = strtolower($symbol);
-    	$exchange = $exchange != null ? strtolower($exchange) : $exchange;
+        if(!array_key_exists(strtolower($symbol), $stock_cache))
+        {
+        	// Check to make sure a ticker is valid.
+        	$ticker = ticker($symbol, $exchange);
+        	if(!$ticker)
+        	{
+        		return $ticker;
+        	}
 
-    	if($exchange == "nse")
-    	{
-    		$symbol = $symbol . ".NS";
-    	}
+        	// Modify variables.
+        	$symbol = strtolower($symbol);
+        	$exchange = $exchange != null ? strtolower($exchange) : $exchange;
 
-    	// Get appropriate data.
-    	$data = file_get_contents("http://chart.finance.yahoo.com/table.csv?s={$symbol}&a=3&b=9&c=2014&d=3&e=9&f=2017&g=m&ignore=.csv");
+        	if($exchange == "nse")
+        	{
+        		$symbol = $symbol . ".NS";
+        	}
 
-    	// Build into multidimensional array.
-    	$data = array_map(function($element) {
-    		return explode(",", $element);
-    	}, explode("\n", $data));
+        	// Get appropriate data.
+        	$data = file_get_contents("http://chart.finance.yahoo.com/table.csv?s={$symbol}&a=3&b=9&c=2014&d=3&e=9&f=2017&g=m&ignore=.csv");
 
-    	// dump($data);
+        	// Build into multidimensional array.
+        	$data = array_map(function($element) {
+        		return explode(",", $element);
+        	}, explode("\n", $data));
 
-    	// Get all data points at the beginning of the month.
-    	$filtered = array_map(function($element) {
-    		return floatval($element[count($element) - 1]);
-    	}, $data);
+        	// dump($data);
 
-    	// Return all non-null values.
-    	return array_values(array_filter($filtered, function($element) {
-    		return $element != null;
-    	}));
+        	// Get all data points at the beginning of the month.
+        	$filtered = array_map(function($element) {
+        		return floatval($element[count($element) - 1]);
+        	}, $data);
+
+        	// Return all non-null values.
+        	$stock_cache[strtolower($symbol)] = array_values(array_filter($filtered, function($element) {
+        		return $element != null;
+        	}));
+        }
+
+        return $stock_cache[strtolower($symbol)];
 
     }
 
@@ -104,4 +114,24 @@
         $covariance = covariance(array_changes($index), array_changes($stock));
         $stdev = stats_standard_deviation(array_changes($index), true);
         return ($covariance < 0 ? $covariance * -1 : $covariance) / ($stdev * $stdev);
+    }
+
+
+    function stock_expected_return($symbol, $exchange = null)
+    {
+        $data = historical_stock($symbol, $exchange);
+        if ($data == false)
+        {
+            return $data;
+        }
+
+        $diffs = [];
+
+        for($i = 0; $i < count($data) - 12; $i++)
+        {
+            array_push($diffs, ($data[$i] - $data[$i + 12]) / $data[$i + 12]);
+        }
+
+        return array_sum($diffs) / count($diffs);
+
     }

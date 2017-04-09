@@ -46,12 +46,14 @@
 		// Calculate both the current and original portfolio values, this time converting foreign currencies to USD.
 		if( $tickers[$i]["currency"] == "USD" )
 		{
-			$value["current"] += $tickers[$i]["current_price"] * $tickers[$i]["shares"];
+			$tickers[$i]["value"] = $tickers[$i]["current_price"] * $tickers[$i]["shares"];
+			$value["current"] += $tickers[$i]["value"];
 			$value["original"] += $tickers[$i]["price"] * $tickers[$i]["shares"];
 		}
 		else
 		{
-			$value["current"] += currency_converter( "INR", "USD", $tickers[$i]["current_price"], true ) * $tickers[$i]["shares"];
+			$tickers[$i]["value"] = currency_converter( "INR", "USD", $tickers[$i]["current_price"], true ) * $tickers[$i]["shares"];
+			$value["current"] += $tickers[$i]["value"];
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
 
@@ -70,17 +72,17 @@
 			"stock" => $historical_stock,
 			"index" => $historical_index,
 			"beta" => beta_stock($historical_index, $historical_stock),
+			"expected_return" => (stock_expected_return($tickers[$i]["symbol"], $tickers[$i]["exchange"])) * $tickers[$i]["value"],
 		];
 
 	}
 
 	for($i = 0; $i < count($tickers); $i++)
 	{
-		$tickers[$i]["weight"] = (( $tickers[$i]["currency"] == "USD" ? $tickers[$i]["current_price"] : currency_converter("INR", "USD", $tickers[$i]["current_price"])) * $tickers[$i]["shares"]) / $value["current"];
+		$tickers[$i]["weight"] = $tickers[$i]["value"] / $value["current"];
 		$portfolio["statistics"]["beta"] += $tickers[$i]["weight"] * $tickers[$i]["historicals"]["beta"];
+		$portfolio["statistics"]["expected_return"] += $tickers[$i]["historicals"]["expected_return"] * $tickers[$i]["weight"];
 	}
-
-	dump($portfolio);
 
 	// Collect all transactions (cash) and actions (stocks) - historicals.
 	$transactions = CS50::query("SELECT * FROM transactions WHERE portfolio_id = ? ORDER BY created_at DESC", $_GET["id"]);
