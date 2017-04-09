@@ -319,9 +319,24 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Expected Return <small>Total: $ <?= $portfolio["total_projection"] ?></small> </h4>
+				<h4 class="modal-title" id="myModalLabel">Expected Return <small></small> </h4>
 			</div>
 				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<table class="table table-hover">
+								<tr>
+									<td>Portfolio Expected Return</td>
+									<td>$ <?= money_format('%i', $portfolio["statistics"]["expected_return"]) ?></td>
+								</tr>
+								<tr>
+									<td>Portfolio Beta</td>
+									<td><?= money_format('%i', $portfolio["statistics"]["beta"]) ?></td>
+								</tr>
+							</table>
+						</div>
+					</div>
 
 					<table class="table table-hover">
 					<thead>
@@ -330,8 +345,8 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 							<th>Shares</th>
 							<th>Purchase Price</th>
 							<th>Live Price</th>
-							<th>% Change</th>
-							<th>Projected Earning (6 wk)</th>
+							<th>Expected Return</th>
+							<th>Beta Value</th>
 							<th>Currency</th>
 							<th>Timestamp</th>
 						</tr>
@@ -342,10 +357,10 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 						<tr>
 							<td><?= $ticker["name"] ?></td>
 							<td><?= $ticker["shares"] ?></td>
-							<td><?= $ticker["price"] ?></td>
-							<td><?= $ticker["current_price"] ?></td>
-							<td><?= percent_change($ticker["price"], $ticker["current_price"]) * 100 ?></td>
-							<td><?= $ticker["projection"] ?></td>
+							<td>$ <?= $ticker["price"] ?></td>
+							<td>$ <?= $ticker["current_price"] ?></td>
+							<td>$ <?= money_format('%i', $ticker["historicals"]["expected_return"]) ?></td>
+							<td><?= money_format('%i', $ticker["historicals"]["beta"]) ?></td>
 							<td><?= $ticker["currency"] ?></td>
 							<td><?= $ticker["created_at"] ?></td>
 						</tr>

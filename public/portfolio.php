@@ -2,6 +2,7 @@
 
 	// Establish configurations.
 	require("../includes/config.php");
+	setlocale(LC_MONETARY, 'en_US');
 
 	// Make sure the portfolio id is available as a GET parameter.
 	if (empty($_GET["id"]))
