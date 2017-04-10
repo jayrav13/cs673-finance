@@ -113,7 +113,7 @@
     {
         // Reduce count to 24 months for beta calculation due to data issues.
         $index = array_slice($index, 0, 24);
-        $stock = array_slice($index, 0, 24); 
+        $stock = array_slice($stock, 0, 24);
 
         $covariance = covariance(array_changes($index), array_changes($stock));
         $stdev = stats_standard_deviation(array_changes($index), true);
