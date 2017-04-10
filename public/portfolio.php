@@ -34,6 +34,11 @@
 		"original" => 0
 	];
 
+	$market_distro = [
+		"USD" => 0,
+		"INR" => 0,
+	];
+
 	// Conduct calculations per ticker.
 	for($i = 0; $i < count($tickers); $i++)
 	{
@@ -57,6 +62,8 @@
 			$value["current"] += $tickers[$i]["value"];
 			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
 		}
+
+		$market_distro[$tickers[$i]["currency"]] += $tickers[$i]["value"];
 
 		/**
 		 *	Expected Return and Beta
@@ -115,7 +122,8 @@
 		"value" => $value,
 		"transactions" => $transactions,
 		"actions" => $actions,
-		"bought_messages" => $bought_messages
+		"bought_messages" => $bought_messages,
+		"market_distro" => $market_distro
 	];
 
 	// On a GET request, return the portfolio.php view with standard data.
