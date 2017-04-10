@@ -34,7 +34,7 @@
 			?>
 			<?= $percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6 ?
 				'style=" color: red; "' : "" ?>
-			>
+			>Be sure to maintain a 70% USD to 30% INR ratio,<br />+ / - 10%, in your portfolio!<br /><br />
 			<?= ($market_distro["USD"] / $value["current"]) * 100 ?>% USD - <?= ($market_distro["INR"] / $value["current"]) * 100 ?>% INR<br />
 		</span>
 		<hr />
