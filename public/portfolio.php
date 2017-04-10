@@ -358,10 +358,17 @@
 					}
 
 					// Get the live price of this ticker.
-					$price = live_price($ticker["symbol"], $ticker["exchange"]);
-					if($ticker["currency"] != "USD")
+					if(array_key_exists("price", $_POST))
 					{
-						$price = currency_converter("INR", "USD", $price, true);
+						$price = floatval($_POST["price"]);
+					}
+					else
+					{
+						$price = live_price($ticker["symbol"], $ticker["exchange"]);
+						if($ticker["currency"] != "USD")
+						{
+							$price = currency_converter("INR", "USD", $price, true);
+						}
 					}
 
 					$update = CS50::query("UPDATE portfolios SET cash = ? WHERE id = ?", ($portfolio["cash"] + $price * $shares), $_GET["id"]);

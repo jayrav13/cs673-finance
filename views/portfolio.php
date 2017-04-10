@@ -275,6 +275,8 @@ $('#sellShares').on('shown.bs.modal', function () {
 					<br />
 					<label for="shares">No. of Shares</span></label>
 					<input type="number" class="form-control" id="shares" name="shares" placeholder="20">
+					<label for="price">Price</span></label>
+					<input type="price" class="form-control" id="price" name="price" placeholder="143.90">
 					<br />
 				</div>
 				<div class="modal-footer">
