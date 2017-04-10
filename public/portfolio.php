@@ -214,7 +214,7 @@
 					// Check if your current cash value is at least 10% of your portfolio.
 					if ($portfolio["cash"] < 0.1 * $value["current"])
 					{
-						$percentage = 100 * money_format('%i', $portfolio["cash"] / ($portfolio["cash"] + $value["current"]));
+						$percentage = 100 * ($portfolio["cash"] / ($portfolio["cash"] + $value["current"]));
 						$output["errors"] = ["Your portfolio's cash must account for more than 10% of your portfolio's value. Currently, it accounts for {$percentage}%. Please add more cash to continue."];
 						render("portfolio.php", $output);
 					}

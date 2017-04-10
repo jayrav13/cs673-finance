@@ -341,11 +341,11 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 							<table class="table table-hover">
 								<tr>
 									<td>Portfolio Expected Return</td>
-									<td>$ <?= money_format('%i', $portfolio["statistics"]["expected_return"]) ?></td>
+									<td>$ <?= ($portfolio["statistics"]["expected_return"]) ?></td>
 								</tr>
 								<tr>
 									<td>Portfolio Beta</td>
-									<td><?= money_format('%i', $portfolio["statistics"]["beta"]) ?></td>
+									<td><?= ($portfolio["statistics"]["beta"]) ?></td>
 								</tr>
 							</table>
 						</div>
@@ -372,8 +372,8 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 							<td><?= $ticker["shares"] ?></td>
 							<td>$ <?= $ticker["price"] ?></td>
 							<td>$ <?= $ticker["current_price"] ?></td>
-							<td>$ <?= money_format('%i', $ticker["historicals"]["expected_return"]) ?></td>
-							<td><?= money_format('%i', $ticker["historicals"]["beta"]) ?></td>
+							<td>$ <?= ($ticker["historicals"]["expected_return"]) ?></td>
+							<td><?= ($ticker["historicals"]["beta"]) ?></td>
 							<td><?= $ticker["currency"] ?></td>
 							<td><?= $ticker["created_at"] ?></td>
 						</tr>
