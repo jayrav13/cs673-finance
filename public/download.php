@@ -19,9 +19,9 @@
 		"shares",
 		"purchase_price",
 		"current_price",
-		"delta",
-		"percent_change_since_init",
-		"projected_six_weeks",
+		"expected_return_percent",
+		"expected_return_value",
+		"beta",
 		"currency",
 		"purchased_on",
 		"portfolio",
@@ -54,7 +54,12 @@
 	foreach($tickers as $ticker)
 	{
 		$live_price = live_price($ticker["symbol"], $ticker["exchange"]);
-		$percent_change = percent_change($ticker["price"], $live_price);
+		$expected_return = stock_expected_return($ticker["symbol"], $ticker["exchange"]);
+
+		$historical_stock = historical_stock( $ticker["symbol"], $ticker["exchange"] );
+		$historical_index = historical_index( $ticker["currency"] == "INR" ? "niftyfifty" : "sp500" );
+		$beta = beta_stock($historical_index, $historical_stock);
+
 		array_push($csv, [
 			$ticker["id"],
 			$ticker["symbol"],
@@ -63,9 +68,9 @@
 			$ticker["shares"],
 			$ticker["price"],
 			$live_price,
-			$live_price - $ticker["price"],
-			$percent_change,
-			(($ticker["price"] * $percent_change) + $live_price),
+			$expected_return,
+			$expected_return * $ticker["shares"] * $live_price,
+			beta_stock($historical_index, $historical_stock),
 			$ticker["currency"],
 			$ticker["created_at"],
 			$portfolio["name"],

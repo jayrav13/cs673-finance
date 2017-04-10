@@ -381,6 +381,7 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 					</tbody>
 				</table>
 
+				<!--
 				<div class="well well-sm">
 				To calculate Projected Earnings (six weeks), we take the price on January 17th and determine the percent change between then and today's price, which is roughly six weeks separated.
 
@@ -392,6 +393,7 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 
 				This data is available by clicking <strong>Download to CSV</strong> on the Portfolio's main page.
 				</div>
+				-->
 
 			</div>
 			<div class="modal-footer">
