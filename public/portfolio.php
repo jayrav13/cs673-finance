@@ -200,7 +200,7 @@
 					// Add an upper bound to the number of stocks that may be purchased.
 					if(count($tickers) == 10)
 					{
-						if(count(CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $_POST["symbol"], $_GET["id"])) == 0)
+						if(count(CS50::query("SELECT * FROM tickers WHERE symbol = ? AND portfolio_id = ?", $_POST["ticker"], $_GET["id"])) == 0)
 						{
 							$output["errors"] = ["The maximum number of stocks you may purchase for this portfolio is 10."];
 							render('portfolio.php', $output);
