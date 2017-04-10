@@ -26,7 +26,13 @@
 		<h5 style="color: <?= $value["current"] > $value["original"] ? "green" : "red" ?> ">Value: $ <?= $value["current"] ?> (<?= $value["current"] > $value["original"] ? "+" : "-" ?> $ <?= $value["current"] - $value["original"] ?>)</h5>
 		<h5 <?= $portfolio["cash"] < 0.1 * $value["current"] ? 'style="color: red;"' : "" ?>>Balance: $ <?= $portfolio["cash"] ?></h5>
 		<span
-			<?= (( ($market_distro["USD"] / $value["current"]) - ($market_distro["INR"] / $value["current"]) ) - 0.4) > 0.1 ? 
+			<?php
+				$percentage_distro = [
+					"USD" => $market_distro["USD"] / $value["current"],
+					"INR" => $market_distro["INR"] / $value["current"],
+				];
+			?>
+			<?= $percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6 ?
 				'style=" color: red; "' : "" ?>
 			>
 			<?= ($market_distro["USD"] / $value["current"]) * 100 ?>% USD - <?= ($market_distro["INR"] / $value["current"]) * 100 ?>% INR<br />
