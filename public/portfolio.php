@@ -327,13 +327,6 @@
 						render('portfolio.php', $output);
 					}
 
-					// Add an lower bound to the number of stocks that may be purchased.
-					if(count($tickers) == 7)
-					{
-						$output["errors"] = ["The minimum number of stocks you may purchase for this portfolio is 7."];
-						render('portfolio.php', $output);
-					}
-
 					// Check if the number of shares requested is numeric.
 					if (!is_numeric($_POST["shares"]))
 					{
@@ -348,6 +341,16 @@
 						redirect('./');
 					}
 					$ticker = $ticker[0];
+
+					// Add an lower bound to the number of stocks that may be purchased.
+					if(count($tickers) == 7)
+					{
+						if($ticker["shares"] == $_POST["shares"])
+						{
+							$output["errors"] = ["The minimum number of stocks you may purchase for this portfolio is 7."];
+							render('portfolio.php', $output);
+						}
+					}
 
 					// Convert shares to int, check if this is a valid quantity.
 					$shares = intval($_POST["shares"]);
