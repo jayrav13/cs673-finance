@@ -26,13 +26,13 @@
 		<h5 style="color: <?= $value["current"] > $value["original"] ? "green" : "red" ?> ">Value: $ <?= $value["current"] ?> (<?= $value["current"] > $value["original"] ? "+" : "-" ?> $ <?= $value["current"] - $value["original"] ?>)</h5>
 		<h5 <?= $portfolio["cash"] < 0.1 * $value["current"] ? 'style="color: red;"' : "" ?>>Balance: $ <?= $portfolio["cash"] ?></h5>
 		<span
-			<?= ((money_format("%i", $market_distro["USD"] / $value["current"]) - money_format("%i", $market_distro["INR"] / $value["current"])) - 0.4) > 0.1 ? 
+			<?= (( ($market_distro["USD"] / $value["current"]) - ($market_distro["INR"] / $value["current"]) ) - 0.4) > 0.1 ? 
 				'style=" color: red; "' : "" ?>
 			>
-			<?= money_format("%i", $market_distro["USD"] / $value["current"]) * 100 ?>% USD - <?= money_format("%i", $market_distro["INR"] / $value["current"]) * 100 ?>% INR<br />
+			<?= ($market_distro["USD"] / $value["current"]) * 100 ?>% USD - <?= ($market_distro["INR"] / $value["current"]) * 100 ?>% INR<br />
 		</span>
 		<hr />
-		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCash"">+</button>
+		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCash">+</button>
 	</div>
 </div>
 
