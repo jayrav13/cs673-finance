@@ -33,7 +33,7 @@
         	}
 
         	// Get appropriate data.
-        	$data = file_get_contents("http://chart.finance.yahoo.com/table.csv?s={$symbol}&a=3&b=9&c=2014&d=3&e=9&f=2017&g=m&ignore=.csv");
+        	$data = file_get_contents("http://chart.finance.yahoo.com/table.csv?s={$symbol}&a=3&b=9&c=2012&d=3&e=9&f=2017&g=m&ignore=.csv");
 
         	// Build into multidimensional array.
         	$data = array_map(function($element) {
@@ -112,8 +112,8 @@
     function beta_stock($index, $stock)
     {
         // Reduce count to 24 months for beta calculation due to data issues.
-        $index = array_slice($index, 0, 24);
-        $stock = array_slice($stock, 0, 24);
+        $index = array_reverse(array_slice($index, 0, 36));
+        $stock = array_reverse(array_slice($stock, 0, 36));
 
         $covariance = covariance(array_changes($index), array_changes($stock));
         $stdev = stats_standard_deviation(array_changes($index), true);
