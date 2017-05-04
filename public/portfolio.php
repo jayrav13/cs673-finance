@@ -28,65 +28,12 @@
 	// Get all of the tickers in the portfolio.
 	$tickers = CS50::query("SELECT * FROM tickers WHERE portfolio_id = ?", $portfolio["id"]);
 
-	// Prepare a value dict to store how much it's worth.
-	$value = [
-		"current" => 0,
-		"original" => 0
-	];
-
-	$market_distro = [
-		"USD" => 0,
-		"INR" => 0,
-	];
-
-	// Conduct calculations per ticker.
-	for($i = 0; $i < count($tickers); $i++)
-	{
-
-		// Get the live stock price of this ticker.
-		$tickers[$i]["current_price"] = live_price($tickers[$i]["symbol"], $tickers[$i]["exchange"]);
-
-		// Calculate the price change between the live price and the price at which this was purchased (in native currency).
-		$tickers[$i]["delta"] = $tickers[$i]["current_price"] - $tickers[$i]["price"];
-
-		// Calculate both the current and original portfolio values, this time converting foreign currencies to USD.
-		if( $tickers[$i]["currency"] == "USD" )
-		{
-			$tickers[$i]["value"] = $tickers[$i]["current_price"] * $tickers[$i]["shares"];
-			$value["current"] += $tickers[$i]["value"];
-			$value["original"] += $tickers[$i]["price"] * $tickers[$i]["shares"];
-		}
-		else
-		{
-			$tickers[$i]["value"] = currency_converter( "INR", "USD", $tickers[$i]["current_price"], true ) * $tickers[$i]["shares"];
-			$value["current"] += $tickers[$i]["value"];
-			$value["original"] += currency_converter( "INR", "USD", $tickers[$i]["price"], true ) * $tickers[$i]["shares"];
-		}
-
-		$market_distro[$tickers[$i]["currency"]] += $tickers[$i]["value"];
-
-		/**
-		 *	Expected Return and Beta
-		 *
-		 *
-		 */
-		$historical_stock = historical_stock( $tickers[$i]["symbol"], $tickers[$i]["exchange"] );
-		$historical_index = historical_index( $tickers[$i]["currency"] == "INR" ? "niftyfifty" : "sp500" );
-		$tickers[$i]["historicals"] = [
-			"stock" => $historical_stock,
-			"index" => $historical_index,
-			"beta" => beta_stock($historical_index, $historical_stock),
-			"expected_return" => (stock_expected_return($tickers[$i]["symbol"], $tickers[$i]["exchange"])) * $tickers[$i]["value"],
-		];
-
-	}
-
-	for($i = 0; $i < count($tickers); $i++)
-	{
-		$tickers[$i]["weight"] = $tickers[$i]["value"] / $value["current"];
-		$portfolio["statistics"]["beta"] += $tickers[$i]["weight"] * $tickers[$i]["historicals"]["beta"];
-		$portfolio["statistics"]["expected_return"] += $tickers[$i]["historicals"]["expected_return"] * $tickers[$i]["weight"];
-	}
+	// Calculate portfolio ER and Beta (and individual) and assign to local variables.
+	$results = get_expected_return_beta($portfolio, $tickers);
+	$value = $results["value"];
+	$market_distro = $results["market_distro"];
+	$portfolio = $results["portfolio"];
+	$tickers = $results["tickers"];
 
 	// Collect all transactions (cash) and actions (stocks) - historicals.
 	$transactions = CS50::query("SELECT * FROM transactions WHERE portfolio_id = ? ORDER BY created_at DESC", $_GET["id"]);
