@@ -47,16 +47,19 @@ portfolio = [
 ]
 
 # Coefficients for linear equation.
-c = [x * -1 for x in portfolio[0]]
+if data["request"]["expected_return"] is None:
+	c = [x * -1 for x in portfolio[0]]
+else:
+	c = [x *  1 for x in portfolio[1]]
+
+print c
+# sys.exit()
 
 # Coefficients for all constraints equations.
 A = [
 
 	# Portfolio weights must = 1.
 	[1] * len(portfolio[0]),
-
-	# Portfolio beta must equal given value.
-	portfolio[1],
 
 	# 70% of stocks must be from US stocks. 30% must be from INR stocks.
 	[ 1 if x == 1 else 0 for x in portfolio[2] ]
@@ -68,12 +71,20 @@ b = [
 	# Portfolio weight.
 	1,
 
-	# Stable beta value.
-	data["portfolio"]["statistics"]["beta"],
-
 	# Portfolio balance - USD vs INR
 	0.7
 ]
+
+if data["request"]["expected_return"] is not None:
+	A.append( [ x * -1 for x in portfolio[0] ] )
+	b.append( -1 * data["request"]["expected_return"] )
+if data["request"]["beta"] is not None:
+	A.append( [ x *  1 for x in portfolio[1] ] )
+	b.append( data["request"]["beta"] )
+
+print A
+print b
+print c
 
 # Set bounds for weights (must range from 0 to 1)
 bounds = tuple([(0, 1) for x in [1] * len(portfolio[0])])

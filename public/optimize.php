@@ -18,13 +18,16 @@
 
 	/**
 	 *
-	 *	Combinations: (null, null), (<constraint>, null), (null, <constraint>), (<constraint>, <constraint>)
+	 *	Combinations: (<constraint>, null), (null, <constraint>), (<constraint>, <constraint>)
 	 *
 	 */
 	$result["request"] = [
-		"expected_return" => false,
-		"beta" => false
+		"expected_return" => $result["portfolio"]["statistics"]["expected_return"] + $result["portfolio"]["statistics"]["expected_return"] * 0.1,
+		"beta" => $result["portfolio"]["statistics"]["beta"] - $result["portfolio"]["statistics"]["beta"] * 0.1
 	];
+
+	echo json_encode($result);
+	exit;
 
 	$optimized = [];
 	exec("python ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $optimized);
