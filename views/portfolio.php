@@ -16,6 +16,9 @@
 		Portfolio Statistics
 	</button>
 	<hr />
+	<a class="btn btn-success btn-sm" href="./optimize.php?id=<?= $portfolio['id'] ?>">
+		Optimize
+	</a>
 	<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePortfolio">
 		Delete Portfolio
 	</button>
