@@ -18,6 +18,8 @@
 		redirect("./");
 	}
 
+	$python = CS50::config()["environment"]["python"];
+
 	/**
 	 *	GET
 	 *
@@ -42,7 +44,7 @@
 			"beta" => null
 		];
 
-		exec("python ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
+		exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
 		$output = json_decode($output[ count($output) - 1 ], true);
 		$output["request"] = $result["request"];
 		array_push($optimized, $output);
@@ -59,7 +61,7 @@
 
 		$output = [];
 
-		exec("python ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
+		exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
 		$output = json_decode($output[ count($output) - 1 ], true);
 		$output["request"] = $result["request"];
 		array_push($optimized, $output);
@@ -91,7 +93,7 @@
 	exit;
 
 	$optimized = [];
-	exec("python ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $optimized);
+	exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $optimized);
 
 	$optimized = json_decode($optimized[ count($optimized) - 1 ]);
 	header("Content-Type: application/json");
