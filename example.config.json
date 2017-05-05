@@ -1,12 +1,13 @@
 {
-    "database": {
-        "host": "localhost",
-        "name": "pset7",
-        "username": "TODO",
-        "password": "TODO"
-    },
-    "environment": {
+	"database": {
+		"host": "localhost",
+		"name": "pset7",
+		"username": "TODO",
+		"password": "TODO"
+	},
+	"environment": {
 		"prepend": "",
-		"env": "local"
-    }
+		"env": "local",
+		"python": "python"
+	}
 }
