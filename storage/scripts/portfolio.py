@@ -20,7 +20,7 @@ import sys
 
 # Make sure a command line argument exists.
 if len(sys.argv) != 2:
-	print json.dumps({"status": -1, "message": "Must include JSON object of portfolio."})
+	print(json.dumps({"status": -1, "message": "Must include JSON object of portfolio."}))
 	sys.exit()
 
 data = None
@@ -29,7 +29,7 @@ data = None
 try:
 	data = json.loads(sys.argv[1])
 except Exception as e:
-	print json.dumps({"status": -1, "message": "Must include JSON object of portfolio."})
+	print(json.dumps({"status": -1, "message": "Must include JSON object of portfolio."}))
 	sys.exit()
 
 # Portfolio
@@ -87,14 +87,14 @@ bounds = tuple([(0, 1) for x in [1] * len(portfolio[0])])
 try:
 	result = linprog(c, A_eq=A, b_eq=b, bounds=bounds, options={"disp": False}, method="simplex")
 except Exception as e:
-	print json.dumps({"status": -1, "message": str(e)})
+	print(json.dumps({"status": -1, "message": str(e)}))
 	sys.exit()
 
 if result.status != 0:
-	print json.dumps({"status": -1, "message": result.message})
+	print(json.dumps({"status": -1, "message": result.message}))
 else:
 	# Print result.
-	print json.dumps({
+	print(json.dumps({
 		"x": result.x.tolist(),
 		"slack": result.slack.tolist(),
 		"success": result.success,
@@ -102,5 +102,5 @@ else:
 		"nit": result.nit,
 		"message": result.message,
 		"fun": result.fun
-	})
+	}))
 
