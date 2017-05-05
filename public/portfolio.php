@@ -308,7 +308,7 @@
 					}
 
 					// Get the live price of this ticker.
-					if(array_key_exists("price", $_POST))
+					if(array_key_exists("price", $_POST) && $_POST["price"] != null)
 					{
 						$price = floatval($_POST["price"]);
 					}
@@ -321,7 +321,8 @@
 						}
 					}
 
-					$update = CS50::query("UPDATE portfolios SET cash = ? WHERE id = ?", ($portfolio["cash"] + $price * $shares), $_GET["id"]);
+					$update = CS50::query("UPDATE portfolios SET cash = cash + ? WHERE id = ?", ($price * $shares), $_GET["id"]);
+
 					if($ticker["shares"] - $shares == 0)
 					{
 						$update = CS50::query("DELETE FROM tickers WHERE id = ?", $_POST["ticker_id"]);
