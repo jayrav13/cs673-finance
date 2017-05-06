@@ -6,6 +6,10 @@
 	</div>
 </div>
 
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customConstraints">
+Custom Optimization Constraints
+</button>
+<hr />
 <?php if($status != 0) { ?>
 	<div class="row">
 		<div class="well well-sm center">
@@ -95,7 +99,38 @@
 
 <?php } ?>
 
+<script type="text/javascript">
+// On click, show modal.
+$('#customConstraints').on('shown.bs.modal', function () {
+	$('#myInput').focus()
+})
+</script>
 
+<!-- Modal -->
+<div class="modal fade" id="customConstraints" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Custom Optimization Constraints</h4>
+			</div>
+			<form method="post" action="optimize.php?id=<?= $_GET["id"] ?>&action=shares&method=buy">
+				<div class="modal-body">
+					<label for="expected_return">Expected Return</label>
+					<input type="number" class="form-control" id="expected_return" name="expected_return" placeholder="1234.56">
+					<br />
+					<label for="beta">Beta Value</label>
+					<input type="number" class="form-control" id="beta" name="beta" placeholder="0.923">
+					<br />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 <div class="row">
 

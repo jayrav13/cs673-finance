@@ -70,33 +70,39 @@
 			return abs($element["status"]);
 		}, $optimized);
 
-		render("optimize.php", [
+		$packet = [
 			"optimized" => $optimized,
 			"portfolio" => $result["portfolio"],
 			"tickers" => $result["tickers"],
 			"status" => array_sum($status) == 0 ? 0 : -1,
-		]);
+		];
+
+		if(array_key_exists("request_dump", $_GET) && $_GET["request_dump"] == "true")
+		{
+			header("Content-Type: application/json");
+			echo json_encode($packet);
+		}
+		else
+		{
+			render("optimize.php", $packet);
+		}
+
 	}
 
-	header("Content-Type: application/json");
-	echo json_encode($result);
-	exit;
+	else if($_SERVER["REQUEST_METHOD"] == "POST")
+	{
 
-	/**
-	 *
-	 *	Combinations: (<constraint>, null), (null, <constraint>), (<constraint>, <constraint>)
-	 *
-	 */
+		// if( (array_key_exists("expected_return", $_POST) && $_POST["expected_return"] != null) || )
 
+		$result = get_expected_return_beta($portfolio, $tickers);
 
-	echo json_encode($result);
-	exit;
+		$optimized = [];
+		$output = [];
 
-	$optimized = [];
-	exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $optimized);
+		$result["request"] = [
+			"expected_return" => []
+		];
 
-	$optimized = json_decode($optimized[ count($optimized) - 1 ]);
-	header("Content-Type: application/json");
-	echo json_encode($optimized);
+	}
 
 
