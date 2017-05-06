@@ -19,6 +19,8 @@
 	}
 
 	$python = CS50::config()["environment"]["python"];
+	// Generate ER's and Betas.
+	$result = get_expected_return_beta($portfolio, $tickers);
 
 	/**
 	 *	GET
@@ -27,8 +29,6 @@
 	 */
 	if($_SERVER["REQUEST_METHOD"] == "GET")
 	{
-		// Generate ER's and Betas.
-		$result = get_expected_return_beta($portfolio, $tickers);
 
 		// Store optimized results.
 		$optimized = [];
@@ -58,7 +58,7 @@
 			"expected_return" => null,
 			"beta" => $result["portfolio"]["statistics"]["beta"]
 		];
-
+/*
 		$output = [];
 
 		exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
@@ -86,23 +86,68 @@
 		{
 			render("optimize.php", $packet);
 		}
-
+*/
 	}
 
 	else if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 
-		// if( (array_key_exists("expected_return", $_POST) && $_POST["expected_return"] != null) || )
-
-		$result = get_expected_return_beta($portfolio, $tickers);
+		if(!array_key_exists("type", $_GET))
+		{
+			redirect("./optimize.php?id={$_GET['id']}");
+		}
+		else
+		{
+			if(!array_key_exists("expected_return", $_POST) && !array_key_exists("beta", $_POST))
+			{
+				redirect("./optimize.php?id={$_GET['id']}");
+			}
+		}
 
 		$optimized = [];
 		$output = [];
 
-		$result["request"] = [
-			"expected_return" => []
-		];
+		if($_GET["type"] == "custom_constraint")
+		{
+			$er = floatval(array_key_exists("expected_return", $_POST) ? $_POST["expected_return"] : null);
+			$beta = floatval(array_key_exists("beta", $_POST) ? $_POST["beta"] : null);
+
+			$result["request"] = [
+				"expected_return" => ($er == 0 || $er == null ? null : $er),
+				"beta" => ($beta == 0 || $beta == null ? null : $beta)
+			];
+		}
+		else
+		{
+			redirect("./optimize.php?id={$_GET['id']}");
+		}		
 
 	}
 
+	$output = [];
 
+	exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
+	$output = json_decode($output[ count($output) - 1 ], true);
+	$output["request"] = $result["request"];
+	array_push($optimized, $output);
+
+	$status = array_map(function($element) {
+		return abs($element["status"]);
+	}, $optimized);
+
+	$packet = [
+		"optimized" => $optimized,
+		"portfolio" => $result["portfolio"],
+		"tickers" => $result["tickers"],
+		"status" => array_sum($status) == 0 ? 0 : -1,
+	];
+
+	if(array_key_exists("request_dump", $_GET) && $_GET["request_dump"] == "true")
+	{
+		header("Content-Type: application/json");
+		echo json_encode($result);
+	}
+	else
+	{
+		render("optimize.php", $packet);
+	}

@@ -56,14 +56,15 @@ Custom Optimization Constraints
 								<tr>
 									<td>Expected Return</td>
 									<td><?= $portfolio["statistics"]["expected_return"] ?></td>
-									<td style="<?= $optimized[$i]["request"]["expected_return"] == null ? "background-color: green; font-weight: bold; color: white" : "" ?>">
+									<td style="<?= 
+										( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["expected_return"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
 										<?= $optimized[$i]["request"]["expected_return"] == null ? $optimized[$i]["fun"] * -1 : $optimized[$i]["request"]["expected_return"] ?>
 									</td>
 								</tr>
 								<tr>
 									<td>Beta Value</td>
 									<td><?= $portfolio["statistics"]["beta"] ?></td>
-									<td style="<?= $optimized[$i]["request"]["beta"] == null ? "background-color: green; font-weight: bold; color: white" : "" ?>">
+									<td style="<?= ( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["beta"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
 										<?= $optimized[$i]["request"]["beta"] == null ? $optimized[$i]["fun"] : $optimized[$i]["request"]["beta"] ?>
 									</td>
 								</tr>
@@ -114,13 +115,13 @@ $('#customConstraints').on('shown.bs.modal', function () {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Custom Optimization Constraints</h4>
 			</div>
-			<form method="post" action="optimize.php?id=<?= $_GET["id"] ?>&action=shares&method=buy">
+			<form method="post" action="optimize.php?id=<?= $_GET["id"] ?>&type=custom_constraint">
 				<div class="modal-body">
 					<label for="expected_return">Expected Return</label>
-					<input type="number" class="form-control" id="expected_return" name="expected_return" placeholder="1234.56">
+					<input type="number" step="0.01" class="form-control" id="expected_return" name="expected_return" placeholder="1234.56">
 					<br />
 					<label for="beta">Beta Value</label>
-					<input type="number" class="form-control" id="beta" name="beta" placeholder="0.923">
+					<input type="number" step="0.01" class="form-control" id="beta" name="beta" placeholder="0.923">
 					<br />
 				</div>
 				<div class="modal-footer">
