@@ -98,7 +98,7 @@
 		}
 		else
 		{
-			if(!array_key_exists("expected_return", $_POST) && !array_key_exists("beta", $_POST))
+			if(empty($_POST["expected_return"]) && empty($_POST["beta"]))
 			{
 				redirect("./optimize.php?id={$_GET['id']}");
 			}
