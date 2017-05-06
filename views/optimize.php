@@ -25,97 +25,96 @@ Custom Optimization Constraints
 			?>
 		</div>
 	</div>
-<?php } else { ?>
+<?php } ?>
 
 	<?php for($i = 0; $i < count($optimized); $i++) { ?>
-		<div class="row">
-			<div class="well well-sm">
-				<b>Optimization:
-				<?php
-					if($optimized[$i]["request"]["expected_return"] == null && $optimized[$i]["request"]["beta"] != null) {
-						echo "Maximized Expected Return";
-					}
-					else if($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] == null) {
-						echo "Minimized Beta Value";
-					}
-					else {
-						echo "Custom Constraints for both Expected Return and Beta Value";
-					}
-				?></b>
-				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<td></td>
-									<td>Original</td>
-									<td>Optimized</td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Expected Return</td>
-									<td><?= $portfolio["statistics"]["expected_return"] ?></td>
-									<td style="<?= 
-										( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["expected_return"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
-										<?= $optimized[$i]["request"]["expected_return"] == null ? $optimized[$i]["fun"] * -1 : $optimized[$i]["request"]["expected_return"] ?>
-									</td>
-								</tr>
-								<tr>
-									<td>Beta Value</td>
-									<td><?= $portfolio["statistics"]["beta"] ?></td>
-									<td style="<?= ( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["beta"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
-										<?= $optimized[$i]["request"]["beta"] == null ? $optimized[$i]["fun"] : $optimized[$i]["request"]["beta"] ?>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+		<?php if ($optimized[$i]["status"] == 0) { ?>
+			<div class="row">
+				<div class="well well-sm">
+					<b>Optimization:
+					<?php
+						if($optimized[$i]["request"]["expected_return"] == null && $optimized[$i]["request"]["beta"] != null) {
+							echo "Maximized Expected Return";
+						}
+						else if($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] == null) {
+							echo "Minimized Beta Value";
+						}
+						else {
+							echo "Custom Constraints for both Expected Return and Beta Value";
+						}
+					?></b>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<td></td>
+										<td>Original</td>
+										<td>Optimized</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Expected Return</td>
+										<td><?= $portfolio["statistics"]["expected_return"] ?></td>
+										<td style="<?= 
+											( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["expected_return"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
+											<?= $optimized[$i]["request"]["expected_return"] == null ? $optimized[$i]["fun"] * -1 : $optimized[$i]["request"]["expected_return"] ?>
+										</td>
+									</tr>
+									<tr>
+										<td>Beta Value</td>
+										<td><?= $portfolio["statistics"]["beta"] ?></td>
+										<td style="<?= ( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["beta"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
+											<?= $optimized[$i]["request"]["beta"] == null ? $optimized[$i]["fun"] : $optimized[$i]["request"]["beta"] ?>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<td class="center">Search</td>
-							<td class="center">Stock</td>
-							<td class="center">Weight</td>
-							<td class="center">Price</td>
-							<td class="center">Current Shares</td>
-							<td class="center">Projected Shares</td>
-							<td class="center">Delta Shares</td>
-						</tr>
-					</thead>
-
-					<tbody>
-						<?php for($j = 0; $j < count($tickers); $j++) { ?>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-hover">
+						<thead>
 							<tr>
-								<td>
-									<form method="post" action="./search.php" target="_BLANK">
-										<input id="ticker" name="ticker" type="text" hidden value="<?php echo $tickers[$j]["symbol"] ?>">
-										<input id="exchange" name="exchange" type="text" hidden value="<?php echo $tickers[$j]["exchange"] ?>">
-										<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-									</form>
-								</td>
-								<td><?php echo $tickers[$j]["symbol"]; ?></td>
-								<td><?php echo $optimized[$i]["x"][$j]; ?></td>
-								<td><?php echo $tickers[$j]["current_price"] ?></td>
-								<td><?php echo $tickers[$j]["shares"] ?></td>
-								<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / $tickers[$j]["current_price"]); ?>
-								<td><?php echo $new_shares ?></td>
-								<td><?php echo $new_shares - $tickers[$j]["shares"] ?></td>
+								<td class="center">Search</td>
+								<td class="center">Stock</td>
+								<td class="center">Weight</td>
+								<td class="center">Price</td>
+								<td class="center">Current Shares</td>
+								<td class="center">Projected Shares</td>
+								<td class="center">Delta Shares</td>
 							</tr>
-						<?php } ?>
-					</tbody>
-				</table>
+						</thead>
+
+						<tbody>
+							<?php for($j = 0; $j < count($tickers); $j++) { ?>
+								<tr>
+									<td>
+										<form method="post" action="./search.php" target="_BLANK">
+											<input id="ticker" name="ticker" type="text" hidden value="<?php echo $tickers[$j]["symbol"] ?>">
+											<input id="exchange" name="exchange" type="text" hidden value="<?php echo $tickers[$j]["exchange"] ?>">
+											<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+										</form>
+									</td>
+									<td><?php echo $tickers[$j]["symbol"]; ?></td>
+									<td><?php echo $optimized[$i]["x"][$j]; ?></td>
+									<td><?php echo $tickers[$j]["current_price"] ?></td>
+									<td><?php echo $tickers[$j]["shares"] ?></td>
+									<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / $tickers[$j]["current_price"]); ?>
+									<td><?php echo $new_shares ?></td>
+									<td><?php echo $new_shares - $tickers[$j]["shares"] ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
-
+		<?php } ?>
 	<?php } ?>
-
-<?php } ?>
 
 <script type="text/javascript">
 // On click, show modal.
