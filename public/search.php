@@ -23,27 +23,30 @@
 		if(empty($_POST["ticker"]) || empty($_POST["exchange"]))
 		{
 			$output["errors"] = ["Ticker and Exchange required!"];
-		}
-
-		$ticker = $_POST["ticker"];
-		$exchange = $_POST["exchange"];
-
-		$info = ticker_info($ticker, $exchange);
-		$live_price = live_price($ticker, $exchange);
-		$init_price = init_price($ticker, $exchange);
-
-		if($info == false || $live_price == false || $init_price == false)
-		{
-			$output["errors"] = ["Something went wrong - be sure to confirm that this ticker lives in this exchange and please try again!"];
 			render('search.php', $output);
 		}
 		else
 		{
-			$output["info"] = $info;
-			$output["live_price"] = $live_price;
-			$output["init_price"] = $init_price;
+			$ticker = $_POST["ticker"];
+			$exchange = $_POST["exchange"];
 
-			render('search.php', $output);
+			$info = ticker_info($ticker, $exchange);
+			$live_price = live_price($ticker, $exchange);
+			$init_price = init_price($ticker, $exchange);
+
+			if($info == false || $live_price == false || $init_price == false)
+			{
+				$output["errors"] = ["Something went wrong - be sure to confirm that this ticker lives in this exchange and please try again!"];
+				render('search.php', $output);
+			}
+			else
+			{
+				$output["info"] = $info;
+				$output["live_price"] = $live_price;
+				$output["init_price"] = $init_price;
+
+				render('search.php', $output);
+			}
 		}
 
 	}

@@ -140,12 +140,18 @@
 		"portfolio" => $result["portfolio"],
 		"tickers" => $result["tickers"],
 		"status" => array_sum($status) == 0 ? 0 : -1,
+		"extended" => $result
 	];
 
-	if(array_key_exists("request_dump", $_GET) && $_GET["request_dump"] == "true")
+	if(array_key_exists("dump", $_GET) && $_GET["dump"] == "request")
 	{
 		header("Content-Type: application/json");
 		echo json_encode($result);
+	}
+	else if(array_key_exists("dump", $_GET) && $_GET["dump"] == "packet")
+	{
+		header("Content-Type: application/json");
+		echo json_encode($packet);
 	}
 	else
 	{

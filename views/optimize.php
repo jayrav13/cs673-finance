@@ -75,20 +75,37 @@ Custom Optimization Constraints
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+			<div class="col-md-12">
 				<table class="table table-hover">
 					<thead>
 						<tr>
+							<td class="center">Search</td>
 							<td class="center">Stock</td>
 							<td class="center">Weight</td>
+							<td class="center">Price</td>
+							<td class="center">Current Shares</td>
+							<td class="center">Projected Shares</td>
+							<td class="center">Delta Shares</td>
 						</tr>
 					</thead>
 
 					<tbody>
 						<?php for($j = 0; $j < count($tickers); $j++) { ?>
 							<tr>
+								<td>
+									<form method="post" action="./search.php" target="_BLANK">
+										<input id="ticker" name="ticker" type="text" hidden value="<?php echo $tickers[$j]["symbol"] ?>">
+										<input id="exchange" name="exchange" type="text" hidden value="<?php echo $tickers[$j]["exchange"] ?>">
+										<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+									</form>
+								</td>
 								<td><?php echo $tickers[$j]["symbol"]; ?></td>
 								<td><?php echo $optimized[$i]["x"][$j]; ?></td>
+								<td><?php echo $tickers[$j]["current_price"] ?></td>
+								<td><?php echo $tickers[$j]["shares"] ?></td>
+								<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / $tickers[$j]["current_price"]); ?>
+								<td><?php echo $new_shares ?></td>
+								<td><?php echo $new_shares - $tickers[$j]["shares"] ?></td>
 							</tr>
 						<?php } ?>
 					</tbody>
@@ -115,7 +132,7 @@ $('#customConstraints').on('shown.bs.modal', function () {
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Custom Optimization Constraints</h4>
 			</div>
-			<form method="post" action="optimize.php?id=<?= $_GET["id"] ?>&type=custom_constraint">
+			<form method="post" action="./optimize.php?id=<?= $_GET["id"] ?>&type=custom_constraint">
 				<div class="modal-body">
 					<label for="expected_return">Expected Return</label>
 					<input type="number" step="0.01" class="form-control" id="expected_return" name="expected_return" placeholder="1234.56">
