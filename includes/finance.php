@@ -141,7 +141,14 @@
         }
 
         // Retrieve JSON and decode.
-        $data = file_get_contents("http://www.google.com/finance/match?q={$q}");
+        $url = 'http://www.google.com/finance/match?q={$q}';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        // $data = file_get_contents("http://www.google.com/finance/match?q={$q}");
         $data = json_decode($data, true);
 
         // If nothing returns, fail.
