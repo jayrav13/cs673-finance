@@ -13,9 +13,9 @@
 		Sell Shares
 	</button>
 	<?php if($percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6) { ?>
-	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#recommendedStocks">
+	<!--<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#recommendedStocks">
 		Recommended Stocks
-	</button>
+	</button>-->
 	<?php } ?>
 	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewHistory">
 		View History
@@ -431,6 +431,11 @@ $('#recommendedStocks').on('shown.bs.modal', function () {
 				<h4 class="modal-title" id="myModalLabel">Recommended Stocks</h4>
 			</div>
 			<div class="modal-body">
+
+			<div class="well well-sm">
+			It looks like your portfolio doesn't have an even 70% / 30% balance between USR and INR stocks!<br /><br />
+			Below is a list of assets you might find valuable - those that we believe will have a high Expected Return and those that we believe will be most stable; that is have a steady Beta value.<br /><br />Visit the <a href="./search.php" target="_BLANK">Search Tool</a> to learn more.
+			</div>
 
 			<div class="row">
 				<h5 class="center">Top Projected Expected Return</h5>
