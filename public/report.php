@@ -86,7 +86,7 @@
 			$exchanges[$ticker["exchange"]],
 			$ticker["shares"],
 			$ticker["current_price"],
-			$ticker["value"] / $data["extended"]["value"]["current"],
+			round($ticker["value"] / $data["extended"]["value"]["current"], 3),
 			$ticker["currency"],
 			$ticker["created_at"],
 			"$ " . round($ticker["historicals"]["expected_return"], 2),
@@ -155,7 +155,7 @@
 			$exchanges[$ticker["exchange"]],
 			round(($data["extended"]["value"]["current"] * $data["optimized"]["x"][$i]) / ($ticker["value"] / $ticker["shares"])),
 			$ticker["current_price"],
-			$data["optimized"]["x"][$i],
+			round($data["optimized"]["x"][$i], 3),
 			$ticker["currency"],
 			$ticker["created_at"],
 			"$ " . $ticker["historicals"]["expected_return"],
@@ -163,18 +163,17 @@
 		]);
 	}
 
-	header("Content-Disposition: attachment; filename=\"optimizer_report.txt\"");
+	header("Content-Disposition: attachment; filename=\"optimizer_report.csv\"");
 	header("Content-Type: application/force-download");
 
 	foreach($csv as $row)
 	{
 		if(is_string($row))
 		{
-			echo $row;
+			echo $row . "\n";
 		}
 		else
 		{
-			echo implode("\t", $row);
+			echo implode(",", $row) . "\n";
 		}
-		echo "\n";
 	}
