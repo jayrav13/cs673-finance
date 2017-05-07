@@ -1,3 +1,9 @@
+<?php
+	$percentage_distro = [
+		"USD" => $value["current"] > 0 ? $market_distro["USD"] / $value["current"] : 0,
+		"INR" => $value["current"] > 0 ? $market_distro["INR"] / $value["current"] : 0,
+	];
+?>
 <div class="row">
 	<!-- Button trigger modal -->
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#buyShares">
@@ -6,6 +12,11 @@
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sellShares">
 		Sell Shares
 	</button>
+	<?php if($percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6) { ?>
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#recommendedStocks">
+		Recommended Stocks
+	</button>
+	<?php } ?>
 	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewHistory">
 		View History
 	</button>
@@ -29,12 +40,6 @@
 		<h5 style="color: <?= $value["current"] > $value["original"] ? "green" : "red" ?> ">Value: $ <?= $value["current"] ?> (<?= $value["current"] > $value["original"] ? "+" : "-" ?> $ <?= $value["current"] - $value["original"] ?>)</h5>
 		<h5 <?= $portfolio["cash"] < 0.1 * $value["current"] ? 'style="color: red;"' : "" ?>>Balance: $ <?= $portfolio["cash"] ?></h5>
 		<span
-			<?php
-				$percentage_distro = [
-					"USD" => $value["current"] > 0 ? $market_distro["USD"] / $value["current"] : 0,
-					"INR" => $value["current"] > 0 ? $market_distro["INR"] / $value["current"] : 0,
-				];
-			?>
 			<?= $percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6 ?
 				'style=" color: red; "' : "" ?>
 			>Be sure to maintain a 70% USD to 30% INR ratio,<br />+ / - 10%, in your portfolio!<br /><br />
@@ -404,6 +409,78 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+// On click, show modal.
+$('#recommendedStocks').on('shown.bs.modal', function () {
+	$('#myInput').focus()
+})
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="recommendedStocks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Recommended Stocks</h4>
+			</div>
+			<div class="modal-body">
+
+			<div class="row">
+				<h5 class="center">Top Projected Expected Return</h5>
+				<div class="col-md-4 col-md-offset-4">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>Ticker</td>
+								<td>ER</td>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach(array_slice($suggestions["expected_return"], 0, 10) as $key => $value) { ?>
+							<tr>
+								<td><?php echo $key ?></td>
+								<td><?php echo round($value * 100, 3) ?> %</td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<h5 class="center">Optimal Projected Expected Return</h5>
+				<div class="col-md-4 col-md-offset-4">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>Ticker</td>
+								<td>Beta</td>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach(array_slice($suggestions["beta"], 0, 10) as $key => $value) { ?>
+							<tr>
+								<td><?php echo $key ?></td>
+								<td><?php echo round($value, 3) ?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-danger">Delete Portfolio</button>
 			</div>
 		</div>
 	</div>

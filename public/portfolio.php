@@ -59,6 +59,14 @@
 		"live" => "Successfully purchased at live price (per Google Finance)"
 	];
 
+	$suggestions = [
+		"expected_return" => json_decode(file_get_contents("./../storage/top/er.json"), true),
+		"beta" => json_decode(file_get_contents("./../storage/top/beta.json"), true)
+	];
+
+	arsort($suggestions["expected_return"]);
+	arsort($suggestions["beta"]);
+
 	// Generate a dictionary of data that ALL rendered versions of the portfolio require.
 	$output = [
 		"portfolio" => $portfolio,
@@ -70,7 +78,8 @@
 		"transactions" => $transactions,
 		"actions" => $actions,
 		"bought_messages" => $bought_messages,
-		"market_distro" => $market_distro
+		"market_distro" => $market_distro,
+		"suggestions" => $suggestions
 	];
 
 	// On a GET request, return the portfolio.php view with standard data.
