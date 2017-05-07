@@ -24,7 +24,7 @@
 
         // Retrieve JSON and decode.
 
-        $url = 'http://www.google.com/finance/match?q={$q}';
+        $url = "http://www.google.com/finance/match?q={$q}";
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -141,7 +141,7 @@
         }
 
         // Retrieve JSON and decode.
-        $url = 'http://www.google.com/finance/match?q={$q}';
+        $url = "http://www.google.com/finance/match?q={$q}";
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
