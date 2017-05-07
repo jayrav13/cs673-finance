@@ -56,17 +56,17 @@ Custom Optimization Constraints
 								<tbody>
 									<tr>
 										<td>Expected Return</td>
-										<td><?= $portfolio["statistics"]["expected_return"] ?></td>
+										<td>$ <?= round($portfolio["statistics"]["expected_return"], 2) ?></td>
 										<td style="<?= 
 											( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["expected_return"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
-											<?= $optimized[$i]["request"]["expected_return"] == null ? $optimized[$i]["fun"] * -1 : $optimized[$i]["request"]["expected_return"] ?>
+											$ <?= round($optimized[$i]["request"]["expected_return"] == null ? $optimized[$i]["fun"] * -1 : $optimized[$i]["request"]["expected_return"], 2) ?>
 										</td>
 									</tr>
 									<tr>
 										<td>Beta Value</td>
-										<td><?= $portfolio["statistics"]["beta"] ?></td>
+										<td><?= round($portfolio["statistics"]["beta"], 3) ?></td>
 										<td style="<?= ( ($optimized[$i]["request"]["expected_return"] != null && $optimized[$i]["request"]["beta"] != null) || $optimized[$i]["request"]["beta"] == null) ? "background-color: green; font-weight: bold; color: white" : "" ?>">
-											<?= $optimized[$i]["request"]["beta"] == null ? $optimized[$i]["fun"] : $optimized[$i]["request"]["beta"] ?>
+											<?= round($optimized[$i]["request"]["beta"] == null ? $optimized[$i]["fun"] : $optimized[$i]["request"]["beta"], 3) ?>
 										</td>
 									</tr>
 								</tbody>
@@ -113,7 +113,7 @@ Custom Optimization Constraints
 										</form>
 									</td>
 									<td><?php echo $tickers[$j]["symbol"]; ?></td>
-									<td><?php echo $optimized[$i]["x"][$j]; ?></td>
+									<td><?php echo round($optimized[$i]["x"][$j] * 100, 3) ?> %</td>
 									<td><?php echo $tickers[$j]["current_price"] ?></td>
 									<td><?php echo $tickers[$j]["shares"] ?></td>
 									<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / ($tickers[$j]["value"] / $tickers[$j]["shares"])); ?>

@@ -38,7 +38,8 @@
 			<?= $percentage_distro["USD"] > 0.8 || $percentage_distro["USD"] < 0.6 ?
 				'style=" color: red; "' : "" ?>
 			>Be sure to maintain a 70% USD to 30% INR ratio,<br />+ / - 10%, in your portfolio!<br /><br />
-			<?= $value["current"] > 0 ? ($market_distro["USD"] / $value["current"]) * 100 : 0 ?>% USD - <?= $value["current"] > 0 ? ($market_distro["INR"] / $value["current"]) * 100 : 0 ?>% INR<br />
+			<?= $value["current"] > 0 ? round(($market_distro["USD"] / $value["current"]) * 100, 3) : 0 ?>% USD - 
+			<?= $value["current"] > 0 ? round(($market_distro["INR"] / $value["current"]) * 100, 3) : 0 ?>% INR<br />
 		</span>
 		<hr />
 		<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addCash">+</button>
@@ -346,11 +347,11 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 							<table class="table table-hover">
 								<tr>
 									<td>Portfolio Expected Return</td>
-									<td>$ <?= ($portfolio["statistics"]["expected_return"]) ?></td>
+									<td>$ <?= round($portfolio["statistics"]["expected_return"], 2) ?></td>
 								</tr>
 								<tr>
 									<td>Portfolio Beta</td>
-									<td><?= ($portfolio["statistics"]["beta"]) ?></td>
+									<td><?= round($portfolio["statistics"]["beta"], 3) ?></td>
 								</tr>
 							</table>
 						</div>
@@ -377,8 +378,8 @@ $('#expectedReturn').on('shown.bs.modal', function () {
 							<td><?= $ticker["shares"] ?></td>
 							<td>$ <?= $ticker["price"] ?></td>
 							<td>$ <?= $ticker["current_price"] ?></td>
-							<td>$ <?= ($ticker["historicals"]["expected_return"]) ?></td>
-							<td><?= ($ticker["historicals"]["beta"]) ?></td>
+							<td>$ <?= round($ticker["historicals"]["expected_return"], 2) ?></td>
+							<td><?= round($ticker["historicals"]["beta"], 3) ?></td>
 							<td><?= $ticker["currency"] ?></td>
 							<td><?= $ticker["created_at"] ?></td>
 						</tr>
