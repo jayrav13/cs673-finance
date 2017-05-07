@@ -73,6 +73,18 @@ Custom Optimization Constraints
 							</table>
 						</div>
 					</div>
+					<div class="row">
+						<form method="post" action="./background_mass_purchase.php?id=<?php echo $_GET['id'] ?>">
+							<input id="data" name="data" type="text" hidden value='<?php echo json_encode([
+								'optimized' => $optimized[$i],
+								'portfolio' => $portfolio,
+								'tickers' => $tickers,
+								'status' => $status,
+								'extended' => $extended
+							]); ?>'>
+							<button type="submit" class="btn btn-sm btn-primary">Apply Optimization</button>
+						</form>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -97,14 +109,14 @@ Custom Optimization Constraints
 										<form method="post" action="./search.php" target="_BLANK">
 											<input id="ticker" name="ticker" type="text" hidden value="<?php echo $tickers[$j]["symbol"] ?>">
 											<input id="exchange" name="exchange" type="text" hidden value="<?php echo $tickers[$j]["exchange"] ?>">
-											<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+											<button type="submit" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 										</form>
 									</td>
 									<td><?php echo $tickers[$j]["symbol"]; ?></td>
 									<td><?php echo $optimized[$i]["x"][$j]; ?></td>
 									<td><?php echo $tickers[$j]["current_price"] ?></td>
 									<td><?php echo $tickers[$j]["shares"] ?></td>
-									<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / $tickers[$j]["current_price"]); ?>
+									<?php $new_shares = round(($optimized[$i]["x"][$j] * $extended["value"]["current"]) / ($tickers[$j]["value"] / $tickers[$j]["shares"])); ?>
 									<td><?php echo $new_shares ?></td>
 									<td><?php echo $new_shares - $tickers[$j]["shares"] ?></td>
 								</tr>

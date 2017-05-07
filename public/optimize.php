@@ -58,35 +58,7 @@
 			"expected_return" => null,
 			"beta" => $result["portfolio"]["statistics"]["beta"]
 		];
-/*
-		$output = [];
 
-		exec("{$python} ../storage/scripts/portfolio.py '" . json_encode($result) . "'", $output);
-		$output = json_decode($output[ count($output) - 1 ], true);
-		$output["request"] = $result["request"];
-		array_push($optimized, $output);
-
-		$status = array_map(function($element) {
-			return abs($element["status"]);
-		}, $optimized);
-
-		$packet = [
-			"optimized" => $optimized,
-			"portfolio" => $result["portfolio"],
-			"tickers" => $result["tickers"],
-			"status" => array_sum($status) == 0 ? 0 : -1,
-		];
-
-		if(array_key_exists("request_dump", $_GET) && $_GET["request_dump"] == "true")
-		{
-			header("Content-Type: application/json");
-			echo json_encode($packet);
-		}
-		else
-		{
-			render("optimize.php", $packet);
-		}
-*/
 	}
 
 	else if($_SERVER["REQUEST_METHOD"] == "POST")
