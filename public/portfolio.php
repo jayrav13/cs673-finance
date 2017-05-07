@@ -65,7 +65,10 @@
 	];
 
 	arsort($suggestions["expected_return"]);
-	arsort($suggestions["beta"]);
+	uasort($suggestions["beta"], function($first, $second) {
+		return abs($first - 1) < abs($second - 1) ? -1 : 1;
+	});
+	// arsort($suggestions["beta"]);
 
 	// Generate a dictionary of data that ALL rendered versions of the portfolio require.
 	$output = [
