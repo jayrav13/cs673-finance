@@ -84,6 +84,7 @@ Custom Optimization Constraints
 							]); ?>'>
 							<button type="submit" class="btn btn-sm btn-primary">Apply Optimization</button>
 						</form>
+						<br />
 						<form method="post" action="./report.php?id=<?php echo $_GET['id'] ?>">
 							<input id="data" name="data" type="text" hidden value='<?php echo json_encode([
 								'optimized' => $optimized[$i],
@@ -92,7 +93,7 @@ Custom Optimization Constraints
 								'status' => $status,
 								'extended' => $extended
 							]); ?>'>
-							<button type="submit" class="btn btn-sm btn-primary">Download Report</button>
+							<button type="submit" class="btn btn-sm btn-primary">Download Report <span class="glyphicon glyphicon-download" aria-hidden="true"></span></button>
 						</form>
 					</div>
 				</div>

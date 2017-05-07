@@ -5,7 +5,6 @@
 
 	$headers = [
 
-		"id",
 		"symbol",
 		"name",
 		"exchange",
@@ -68,8 +67,8 @@
 	];
 
 	$statistics = [
-		"Original Expected Return: {$data['portfolio']['statistics']['expected_return']}",
-		"Original Beta: {$data['portfolio']['statistics']['beta']}",
+		"Original Expected Return,{$data['portfolio']['statistics']['expected_return']}",
+		"Original Beta,{$data['portfolio']['statistics']['beta']}",
 		""
 	];
 
@@ -80,7 +79,6 @@
 	{
 		$ticker = $data["extended"]["tickers"][$i];
 		array_push($csv, [
-			$ticker["id"],
 			$ticker["symbol"],
 			str_replace(",", "", $ticker["name"]),
 			$exchanges[$ticker["exchange"]],
@@ -118,16 +116,15 @@
 	$portfolio_intro = [
 		"",
 		"OPTIMIZED Portfolio \"{$portfolio['name']}\" for {$user['name']}",
-		"Strategy: " . ($data["optimized"]["request"]["beta"] == null && $data["optimized"]["request"]["expected_return"] == null ? "Custom Constraints for both Expected Return and Beta Value" : ($data["optimized"]["request"]["beta"] == null ? "Minimized Beta Value" : "Maximized Expected Return")),
+		"Strategy," . ($data["optimized"]["request"]["beta"] == null && $data["optimized"]["request"]["expected_return"] == null ? "Custom Constraints for both Expected Return and Beta Value" : ($data["optimized"]["request"]["beta"] == null ? "Minimized Beta Value" : "Maximized Expected Return")),
 		"",
-		"Optimized Expected Return: " . ( $er ),
-		"Optimized Beta Value: " . ( $beta ),
+		"Optimized Expected Return," . ( $er ),
+		"Optimized Beta Value," . ( $beta ),
 		""
 	];
 
 	$headers = [
 
-		"id",
 		"symbol",
 		"name",
 		"exchange",
@@ -149,7 +146,6 @@
 	{
 		$ticker = $data["extended"]["tickers"][$i];
 		array_push($csv, [
-			$ticker["id"],
 			$ticker["symbol"],
 			str_replace(",", "", $ticker["name"]),
 			$exchanges[$ticker["exchange"]],
