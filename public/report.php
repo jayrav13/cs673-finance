@@ -82,7 +82,7 @@
 		array_push($csv, [
 			$ticker["id"],
 			$ticker["symbol"],
-			$ticker["name"],
+			str_replace(",", "", $ticker["name"]),
 			$exchanges[$ticker["exchange"]],
 			$ticker["shares"],
 			$ticker["current_price"],
@@ -151,7 +151,7 @@
 		array_push($csv, [
 			$ticker["id"],
 			$ticker["symbol"],
-			$ticker["name"],
+			str_replace(",", "", $ticker["name"]),
 			$exchanges[$ticker["exchange"]],
 			round(($data["extended"]["value"]["current"] * $data["optimized"]["x"][$i]) / ($ticker["value"] / $ticker["shares"])),
 			$ticker["current_price"],
